@@ -1,0 +1,23 @@
+{
+  "name": "car-wash-club-api",
+  "version": "1.0.0",
+  "description": "API to serve the mobile app and web app",
+  "author": "Joanã Costa",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "cd src && nodemon index.js"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.2.6",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.7",
+    "path": "^0.12.7"
+  }
+}
