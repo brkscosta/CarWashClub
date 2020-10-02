@@ -149,4 +149,8 @@ router.post("/reset_password", async (req, res) => {
   }
 });
 
+route.put("/update_profile", (req, res) => {
+  return res.sendStatus(200).json({ success: true });
+});
+
 module.exports = (app) => app.use("/auth", router);
