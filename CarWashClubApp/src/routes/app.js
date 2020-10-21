@@ -1,6 +1,6 @@
-import React from "react";
-import MainScreeen from "../pages/Main";
-import { createStackNavigator } from "@react-navigation/stack";
+import React from 'react';
+import MainScreeen from '../pages/Main';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const AppStack = createStackNavigator();
 

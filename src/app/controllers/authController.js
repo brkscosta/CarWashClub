@@ -17,9 +17,10 @@ router.post("/register", async (req, res) => {
   let { email } = req.body;
   try {
     if (await User.findOne({ email })) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
-        message: `User already exists`,
+        message: `User already exists with this email`,
+        errorType: "userAlredyTaken",
       });
     }
 
@@ -32,10 +33,11 @@ router.post("/register", async (req, res) => {
       token: generateToken({ id: user._id }),
     });
   } catch (err) {
-    console.log(err);
-    return res
-      .status(400)
-      .json({ success: false, error: "Registration failed" });
+    return res.status(400).json({
+      success: false,
+      error: "Registration failed",
+      errorType: "emptyFields",
+    });
   }
 });
 
@@ -43,30 +45,41 @@ router.post("/authenticate", async (req, res) => {
   let { email, password } = req.body;
 
   if (!email || !password) {
-    return res
-      .sendStatus(400)
-      .json({ success: false, error: "Password and email are required" });
+    return res.status(400).json({
+      success: false,
+      error: "Password and email are required",
+      errorType: "missingPwOREm",
+    });
   }
 
   let user = await User.findOne({ email }).select("+password");
 
-  if (!user)
-    return res
-      .sendStatus(404)
-      .json({ success: false, message: "User not found" });
+  if (!user) {
+    console.log("User not found");
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+      errorType: "userNotFound",
+    });
+  }
 
-  if (!(await bcrypt.compare(password, user.password)))
-    return res
-      .sendStatus(400)
-      .json({ success: false, message: "Invalid Password" });
+  let flag = await bcrypt.compare(password, user.password);
 
-  user.password = undefined;
+  if (!flag) {
+    return res.status(400).json({
+      success: true,
+      message: "Invalid password",
+      errorType: "invalidPw",
+    });
+  } else {
+    user.password = undefined;
 
-  return res.sendStatus(200).json({
-    success: true,
-    user,
-    token: generateToken({ id: user._id }),
-  });
+    return res.status(200).json({
+      success: true,
+      user,
+      token: generateToken({ id: user._id }),
+    });
+  }
 });
 
 router.post("/forgot_password", async (req, res) => {
@@ -75,7 +88,7 @@ router.post("/forgot_password", async (req, res) => {
     let user = await User.findOne({ email });
 
     if (!user)
-      return res.sendStatus(400).json({
+      return res.status(400).json({
         success: false,
         message: "User not found",
       });
@@ -99,14 +112,17 @@ router.post("/forgot_password", async (req, res) => {
     const sent = await mail.isSendedEmail("resetPassword", params, email);
 
     if (sent)
-      return res.sendStatus(200).sendStatus("Notificação enviada com sucesso");
-    else
       return res
-        .sendStatus(409)
-        .sendStatus("Não foi possivel enviar a notificação");
+        .status(200)
+        .json({ success: true, message: "Notificação enviada com sucesso" });
+    else
+      return res.status(409).json({
+        success: false,
+        message: "Não foi possivel enviar a notificação",
+      });
   } catch (err) {
     return res
-      .sendStatus(400)
+      .status(400)
       .json({ success: false, error: "Error on forgot password, try again" });
   }
 });
@@ -121,36 +137,33 @@ router.post("/reset_password", async (req, res) => {
 
     if (!user)
       return res
-        .sendStatus(400)
+        .status(400)
         .json({ success: false, message: "User not found" });
     if (token !== user.passwordResetToken)
-      return res
-        .sendStatus(400)
-        .json({ success: false, message: "Token invalid" });
+      return res.status(400).json({ success: false, message: "Invalid Token" });
 
     let now = new Date();
 
     if (now > user.passwordResetExpires)
       return res
-        .sendStatus(400)
+        .status(400)
         .json({ success: false, message: "Token expired, generate a new one" });
 
     user.password = password;
-    await user.save();
-
+    await user.save(); // Save current user
     return res
-      .sendStatus(200)
+      .status(200)
       .json({ success: true, message: "Password reseted!" });
   } catch (err) {
     console.log(err);
     return res
-      .sendStatus(400)
+      .status(400)
       .json({ success: false, error: "Cannot reset password" });
   }
 });
 
-route.put("/update_profile", (req, res) => {
-  return res.sendStatus(200).json({ success: true });
+router.put("/update_profile", (req, res) => {
+  return res.status(200).json({ success: true });
 });
 
 module.exports = (app) => app.use("/auth", router);

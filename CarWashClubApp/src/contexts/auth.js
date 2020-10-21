@@ -1,43 +1,63 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import AsyncStorage from "@react-native-community/async-storage";
-import * as auth from "../services/auth";
-import api from "../services/api";
-import SplashScreen from "react-native-splash-screen";
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
+import { api, setClientToken } from '../services/api';
+import SplashScreen from 'react-native-splash-screen';
+import { alert } from '../services/utils';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   let [user, setUser] = useState(null);
   let [loading, setLoading] = useState(true);
+  let [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     async function loadStorageData() {
-      let storageUser = await AsyncStorage.getItem("@CarWashClub:user");
-      let storageToken = await AsyncStorage.getItem("@CarWashClub:token");
+      let storageUser = await AsyncStorage.getItem('@CarWashClub:user');
+      let storageToken = await AsyncStorage.getItem('@CarWashClub:token');
 
       if (storageUser && storageToken) {
-        api.defaults.headers["Authorization"] = `Bearer ${storageToken}`;
+        setClientToken(storageToken);
         setUser(JSON.parse(storageUser));
-        setLoading(false);
         SplashScreen.hide();
       }
     }
     loadStorageData();
   }, []);
 
-  async function signIn() {
-    let response = await auth.signIn();
+  async function signIn(email, password) {
+    let data = {
+      email: email,
+      password: password,
+    };
 
-    setUser(response.user);
+    try {
+      let response = await api.post('/auth/authenticate', data);
 
-    api.defaults.headers["Authorization"] = `Bearer ${response.token}`;
+      setUser(response);
 
-    //TODO: Trocar asyncstorage por localStorage
-    await AsyncStorage.setItem(
-      "@CarWashClub:user",
-      JSON.stringify(response.user)
-    );
-    await AsyncStorage.setItem("@CarWashClub:token", response.token);
+      setClientToken(response.token);
+
+      await AsyncStorage.setItem(
+        '@CarWashClub:user',
+        JSON.stringify(response.data.user)
+      );
+      await AsyncStorage.setItem('@CarWashClub:token', response.data.token);
+    } catch (err) {
+      let { errorType } = err.response.data;
+      if (errorType === 'missingPwOREm') {
+        return alert('Password ou Email vazios', 'Preencha o email e password');
+      }
+      if (errorType === 'invalidPw') {
+        return alert('Password Inválida', 'A sua password não está correta');
+      }
+      if (errorType === 'userNotFound') {
+        return alert(
+          'Utilizador não registado',
+          'Este utilizador não está registado'
+        );
+      }
+    }
   }
 
   function signOut() {

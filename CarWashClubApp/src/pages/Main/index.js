@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text, Button, StatusBar } from "react-native";
-import { useAuth } from "../../contexts/auth";
+import React from 'react';
+import { View, Text, Button, StatusBar } from 'react-native';
+import { useAuth } from '../../contexts/auth';
 
 const MainScreeen = () => {
   const { user, signOut } = useAuth();
@@ -11,10 +11,10 @@ const MainScreeen = () => {
 
   return (
     <>
-      <StatusBar />
+      <StatusBar backgroundColor="#40a8c4" />
       <View>
-        <Text>Bem vindo {user?.name}</Text>
-        <Button title="Sign Out" onPress={handleLogout}></Button>
+        <Text>Bem vindo {user?.firstName}</Text>
+        <Button title="Sign Out" onPress={handleLogout} />
       </View>
     </>
   );
