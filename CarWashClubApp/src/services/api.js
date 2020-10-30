@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://192.168.1.200:5000',
+  baseURL: 'http://3.135.164.142',
 });
 
 // Set JSON Web Token in Client to be included in all calls
