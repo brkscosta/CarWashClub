@@ -1,15 +1,10 @@
 version: 0.2
 
 phases:
-  pre_build:
-    commands:
-      - echo Installing source NPM dependencies...
-      - npm install
   build:
     commands:
       - echo Build started on `date`
-      - echo Compiling the dist folder
-      - cd src && node index.js
+      - npm install
   post_build:
     commands:
       - echo Build completed on `date`
