@@ -13,6 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 require("./app/controllers/index")(app);
 
+app.get("/healthcheck", (req, res) => {
+  return res.status(200).json({ success: true, message: "Server is OK" });
+});
+
 let server = app.listen(port, function () {
   let host =
     server.address().address === "::" ? "localhost" : server.address().address;
