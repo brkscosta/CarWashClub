@@ -1,1 +1,1 @@
-export const imoLogo = require("./imoLogo.png");
+export const imoLogo = require('./imoLogo.png');
