@@ -1,29 +1,26 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Image,
-  TouchableHighlight,
-  Button,
-  Text,
-} from 'react-native';
-
-import { imoLogo } from '../../../assets/index';
+import { StyleSheet, Image, TouchableHighlight } from 'react-native';
+import { imoLogo } from '../../../assets/images/';
 import { validateEmail, alert } from '../../../services/utils';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import {
-  ContainerLogo,
-  InputText,
-  ContainerData,
   MiniTextSpan,
-  MainContainer,
-  InputTextContainer,
   ContainerMinTextSpan,
   ContainerRegisterText,
-  ButtonLoginContainer,
   ContainerForgotPassword,
   MinTextRecPw,
+  LoginContainer,
+  ImageContainer,
 } from './styles';
+
+import {
+  MainContainer,
+  Input,
+  Button,
+  InputContainer,
+  Header,
+  FooterContainer,
+} from '../../../components';
 
 import { useAuth } from '../../../contexts/auth';
 
@@ -41,49 +38,68 @@ const Login = ({ navigation }) => {
   }
 
   return (
-    <>
-      <MainContainer>
-        <ContainerLogo>
+    <MainContainer>
+      <Header backgroundColor={'#41aea9'}>
+        <ImageContainer>
           <Image source={imoLogo} style={styles.imoLogo} />
-        </ContainerLogo>
-        <ContainerData>
-          <InputTextContainer>
-            <InputText
-              placeholder="email"
-              textContentType="emailAddress"
-              onChangeText={(emailParam) => setEmail(emailParam)}
-            />
-            <InputText
-              placeholder="password"
-              secureTextEntry={true}
-              textContentType="password"
-              onChangeText={(passParam) => setPassword(passParam)}
-            />
-            <ContainerForgotPassword>
+        </ImageContainer>
+      </Header>
+      <InputContainer height={55}>
+        <LoginContainer>
+          <Input
+            name="eye"
+            type="font-awesome"
+            placeholder="example@example.com"
+            onChangeText={(emailParam) => setEmail(emailParam)}
+            fontStyle="LightItalic"
+          />
+          <Input
+            name="eye"
+            type="font-awesome"
+            placeholder="password"
+            secureTextEntry={true}
+            onChangeText={(passParam) => setPassword(passParam)}
+            fontStyle="LightItalic"
+          />
+          <ContainerForgotPassword>
+            <TouchableHighlight
+              underlayColor={'#FFF'}
+              onPress={() => navigation.navigate('ResetPassword')}
+            >
+              <MinTextRecPw>Recuperar Password</MinTextRecPw>
+            </TouchableHighlight>
+          </ContainerForgotPassword>
+          <ContainerRegisterText>
+            <ContainerMinTextSpan>
               <TouchableHighlight
-                onPress={() => navigation.navigate('ResetPassword')}
+                underlayColor={'#FFF'}
+                onPress={() =>
+                  navigation.navigate('Register', { isHeaderActive: true })
+                }
               >
-                <MinTextRecPw>Recuperar Password</MinTextRecPw>
+                <MiniTextSpan style={styles.registerSpan}>
+                  Não tem conta? Registar
+                </MiniTextSpan>
               </TouchableHighlight>
-            </ContainerForgotPassword>
-            <ContainerRegisterText>
-              <ContainerMinTextSpan>
-                <TouchableHighlight
-                  onPress={() => navigation.navigate('Register')}
-                >
-                  <MiniTextSpan style={styles.registerSpan}>
-                    Não tem conta? Registar
-                  </MiniTextSpan>
-                </TouchableHighlight>
-              </ContainerMinTextSpan>
-            </ContainerRegisterText>
-          </InputTextContainer>
-          <ButtonLoginContainer>
-            <Button title="LOGIN" onPress={handleSignIn} />
-          </ButtonLoginContainer>
-        </ContainerData>
-      </MainContainer>
-    </>
+            </ContainerMinTextSpan>
+          </ContainerRegisterText>
+          <Button
+            title="Entrar"
+            onPress={handleSignIn}
+            fontSize={22}
+            borderRadius={10}
+            colorTheme="#41aea9"
+            marginTop={25}
+          />
+        </LoginContainer>
+      </InputContainer>
+      <FooterContainer
+        paddingTop={25}
+        paddingBottom={25}
+        marginTop={90}
+        marginLeft={10}
+      />
+    </MainContainer>
   );
 };
 
@@ -95,12 +111,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   imoLogo: {
-    width: 180,
-    height: 100,
-    marginTop: 50,
-  },
-  btnRegister: {
-    paddingTop: 15,
+    width: 160,
+    height: 80,
   },
   registerSpan: {
     color: '#40a8c4',

@@ -3,10 +3,12 @@ import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
 import ResetPassword from '../pages/Auth/ResetPassword';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useAuth } from '../contexts/auth';
 
 const AuthStack = createStackNavigator();
 
 const AuthRoutes = () => {
+  let context = useAuth();
   return (
     <>
       <AuthStack.Navigator

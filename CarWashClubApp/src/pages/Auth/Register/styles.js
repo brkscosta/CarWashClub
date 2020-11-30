@@ -5,27 +5,6 @@ import {
 
 import styled from 'styled-components/native';
 
-export const MainContainer = styled.View`
-  flex: 1;
-  width: ${wp('100%')};
-  height: ${hp('100%')};
-  background-color: #fff;
-`;
-
-export const InputText = styled.TextInput`
-  display: flex;
-  width: ${wp('95%')};
-  height: ${hp('7%')};
-  font-size: 16px;
-  border-radius: 3px;
-  margin-top: 20px;
-  border-radius: 10px;
-  font-size: 16px;
-  flex-direction: row;
-  justify-content: center;
-  border: 1px solid #40a8c4;
-`;
-
 export const HeaderContainer = styled.View`
   width: ${wp('100%')};
   height: ${hp('20%')};
@@ -49,9 +28,9 @@ export const InputContainer = styled.View`
   position: absolute;
 `;
 
-export const ButonContainer = styled.View`
+export const ButtonContainer = styled.View`
   width: ${wp('95%')};
-  margin-top: 100%;
+  margin-top: ${wp('100%')};
   margin-left: 2%;
 `;
 
@@ -70,6 +49,7 @@ export const TextHeaderContainer = styled.View`
 
 export const TextHeader = styled.Text`
   font-size: ${(props) => props.fontSize};
+  font-family: 'Roboto-Light';
 `;
 
 export const PasswordStrength = styled.Text`
@@ -77,11 +57,11 @@ export const PasswordStrength = styled.Text`
   margin-left: 10px;
   margin-right: 10px;
   text-align: justify;
+  font-family: 'Roboto-Regular';
 `;
 
 export const CheckboxContainer = styled.View`
   display: flex;
   flex-direction: row;
-  margin-right: 30%;
   margin-top: 10px;
 `;

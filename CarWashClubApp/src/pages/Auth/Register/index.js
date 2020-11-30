@@ -1,12 +1,7 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, View, Text } from 'react-native';
-import { Checkbox } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text } from 'react-native';
+
 import {
-  MainContainer,
-  InputText,
-  HeaderContainer,
-  InputContainer,
-  ButonContainer,
   Scroll,
   TextHeaderContainer,
   TextHeader,
@@ -14,14 +9,54 @@ import {
   CheckboxContainer,
 } from './styles';
 
+import {
+  Header,
+  MainContainer,
+  Input,
+  Button,
+  FooterContainer,
+  InputContainer,
+} from '../../../components';
+import { Icon, CheckBox } from 'react-native-elements';
 import { api } from '../../../services/api';
+
 import {
   validateEmail,
   alert,
   passwordValidation,
 } from '../../../services/utils';
 
-const Register = ({ navigation }) => {
+const Register = ({ route, navigation }) => {
+  useEffect(() => {
+    const { isHeaderActive } = route.params;
+    navigation.setOptions({
+      headerShown: isHeaderActive,
+      title: 'Registo',
+      headerStyle: { backgroundColor: '#41aea9' },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        textAlign: 'center',
+        marginTop: 10,
+        marginRight: 50,
+      },
+      headerLeft: (props) => (
+        <Icon
+          iconStyle={{
+            marginLeft: 10,
+            marginTop: 10,
+            color: '#FFF',
+          }}
+          name="chevron-circle-left"
+          type="font-awesome"
+          {...props}
+          onPress={() => {
+            navigation.navigate('Login');
+          }}
+        />
+      ),
+    });
+  }, [route, navigation]);
+
   let [firstName, setFirstName] = useState('');
   let [lastName, setLastName] = useState('');
   let [email, setEmail] = useState('');
@@ -64,7 +99,7 @@ const Register = ({ navigation }) => {
     } catch (error) {
       let { errorType } = error.response.data;
       if (errorType === 'userAlredyTaken') {
-        return alert('Conta já associada', 'Tente recuperar password');
+        return alert('Email já associada', 'Tente recuperar a sua password!');
       }
     }
   };
@@ -73,32 +108,36 @@ const Register = ({ navigation }) => {
     <>
       <MainContainer>
         <Scroll>
-          <HeaderContainer>
+          <Header>
             <TextHeaderContainer>
-              <TextHeader fontSize="24" style={styles.signUpFont}>
-                Bem-Vindo
-              </TextHeader>
+              <TextHeader fontSize="24">Bem-Vindo</TextHeader>
               <TextHeader fontSize="20" style={styles.signUpFont}>
                 Registe-se para continuar
               </TextHeader>
             </TextHeaderContainer>
-          </HeaderContainer>
-          <InputContainer>
-            <InputText
+          </Header>
+          <InputContainer height={100}>
+            <Input
               required={true}
               placeholder="Primeiro Nome"
               onChangeText={(firstNameParam) => setFirstName(firstNameParam)}
+              fontStyle="LightItalic"
             />
-            <InputText
+            <Input
+              required={true}
               placeholder="Último Nome"
               onChangeText={(lastNameParam) => setLastName(lastNameParam)}
+              fontStyle="LightItalic"
             />
-            <InputText
+            <Input
+              fontStyle="LightItalic"
+              required={true}
               placeholder="Email"
-              type="email"
               onChangeText={(emailParam) => setEmail(emailParam)}
             />
-            <InputText
+            <Input
+              fontStyle="LightItalic"
+              required={true}
               placeholder="Password"
               secureTextEntry={true}
               textContentType="password"
@@ -116,20 +155,30 @@ const Register = ({ navigation }) => {
               <Text> {''}</Text>
             )}
             <CheckboxContainer>
-              <Checkbox
-                status={isSelected ? 'checked' : 'unchecked'}
-                onPress={() => {
-                  setSelection(!isSelected);
-                }}
+              <CheckBox
+                containerStyle={{}}
+                center={true}
+                checked={isSelected}
+                title="Aceito os tratamento dos meu dados ao fazer o registo"
+                onPress={() =>
+                  isSelected ? setSelection(false) : setSelection(true)
+                }
               />
-              <Text style={styles.rgpd}>
-                Aceito o tratamento dos meus dados
-              </Text>
             </CheckboxContainer>
           </InputContainer>
-          <ButonContainer>
-            <Button title="Registar" onPress={handleSignUp} />
-          </ButonContainer>
+          <FooterContainer
+            paddingTop={4}
+            paddingBottom={8}
+            marginTop={97}
+            marginLeft={10}
+          >
+            <Button
+              title="Registar"
+              onPress={handleSignUp}
+              fontSize={22}
+              borderRadius={10}
+            />
+          </FooterContainer>
         </Scroll>
       </MainContainer>
     </>
@@ -137,26 +186,10 @@ const Register = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  signUpFont: {
-    fontFamily: 'Roboto',
-  },
-  textNone: {
-    display: 'none',
-  },
-  textError: {
-    fontSize: 13,
-    color: 'red',
-    textAlign: 'left',
-  },
-  textErrorContainer: {
-    display: 'flex',
-    marginRight: 180,
-    flexDirection: 'column',
-    alignContent: 'flex-start',
-  },
   rgpd: {
     marginTop: 8,
     fontSize: 15,
+    fontFamily: 'Roboto-Regular',
   },
 });
 

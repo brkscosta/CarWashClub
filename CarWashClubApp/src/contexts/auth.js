@@ -9,7 +9,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   let [user, setUser] = useState(null);
   let [loading, setLoading] = useState(true);
-  let [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     async function loadStorageData() {
