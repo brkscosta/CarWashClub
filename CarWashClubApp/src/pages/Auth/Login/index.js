@@ -4,11 +4,8 @@ import { imoLogo } from '../../../assets/images/';
 import { validateEmail, alert } from '../../../services/utils';
 
 import {
-  MiniTextSpan,
-  ContainerMinTextSpan,
   ContainerRegisterText,
   ContainerForgotPassword,
-  MinTextRecPw,
   LoginContainer,
   ImageContainer,
 } from './styles';
@@ -20,6 +17,7 @@ import {
   InputContainer,
   Header,
   FooterContainer,
+  TextView,
 } from '../../../components';
 
 import { useAuth } from '../../../contexts/auth';
@@ -47,42 +45,26 @@ const Login = ({ navigation }) => {
       <InputContainer height={55}>
         <LoginContainer>
           <Input
-            name="eye"
+            fontStyle="BoldItalic"
             type="font-awesome"
             placeholder="example@example.com"
             onChangeText={(emailParam) => setEmail(emailParam)}
-            fontStyle="LightItalic"
           />
           <Input
-            name="eye"
+            fontStyle="BoldItalic"
             type="font-awesome"
             placeholder="password"
             secureTextEntry={true}
             onChangeText={(passParam) => setPassword(passParam)}
-            fontStyle="LightItalic"
           />
           <ContainerForgotPassword>
             <TouchableHighlight
               underlayColor={'#FFF'}
               onPress={() => navigation.navigate('ResetPassword')}
             >
-              <MinTextRecPw>Recuperar Password</MinTextRecPw>
+              <TextView>Recuperar Password</TextView>
             </TouchableHighlight>
           </ContainerForgotPassword>
-          <ContainerRegisterText>
-            <ContainerMinTextSpan>
-              <TouchableHighlight
-                underlayColor={'#FFF'}
-                onPress={() =>
-                  navigation.navigate('Register', { isHeaderActive: true })
-                }
-              >
-                <MiniTextSpan style={styles.registerSpan}>
-                  Não tem conta? Registar
-                </MiniTextSpan>
-              </TouchableHighlight>
-            </ContainerMinTextSpan>
-          </ContainerRegisterText>
           <Button
             title="Entrar"
             onPress={handleSignIn}
@@ -90,13 +72,24 @@ const Login = ({ navigation }) => {
             borderRadius={10}
             colorTheme="#41aea9"
             marginTop={25}
+            width={330}
           />
+          <ContainerRegisterText>
+            <TouchableHighlight
+              underlayColor={'#FFF'}
+              onPress={() =>
+                navigation.navigate('Register', { isHeaderActive: true })
+              }
+            >
+              <TextView>Não tem conta? Registar</TextView>
+            </TouchableHighlight>
+          </ContainerRegisterText>
         </LoginContainer>
       </InputContainer>
       <FooterContainer
-        paddingTop={25}
-        paddingBottom={25}
-        marginTop={90}
+        paddingTop={18}
+        paddingBottom={15}
+        marginTop={100}
         marginLeft={10}
       />
     </MainContainer>

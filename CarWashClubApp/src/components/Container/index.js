@@ -36,10 +36,13 @@ export const Header = styled.View`
 `;
 
 export const FooterContainer = styled.View`
-  width: ${wp('95%')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: ${wp('100%')};
   height: ${wp('20%')};
   margin-top: ${(props) => props.marginTop}%;
-  margin-left: ${(props) => props.marginLeft}px;
-  padding-top: ${(props) => props.paddingTop}%;
-  padding-bottom: ${(props) => props.paddingBottom}%;
+  padding-top: ${(props) =>
+    !props.paddingTop || props.paddingTop === null ? 0 : props.paddingTop}%;
 `;

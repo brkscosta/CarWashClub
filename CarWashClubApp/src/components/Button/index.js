@@ -9,11 +9,16 @@ import { View, Text } from './styles';
  */
 export const Button = (props) => {
   return (
-    <TouchableHighlight onPress={props.onPress} underlayColor={'#FFF'}>
+    <TouchableHighlight
+      onPress={props.onPress}
+      underlayColor={'#FFF'}
+      {...props}
+    >
       <View
         borderRadius={props.borderRadius}
         colorTheme={props.colorTheme}
         marginTop={props.marginTop}
+        width={props.width}
       >
         <Text fontSize={props.fontSize}>{props.title}</Text>
       </View>

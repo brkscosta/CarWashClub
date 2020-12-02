@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }) => {
       );
       await AsyncStorage.setItem('@CarWashClub:token', response.data.token);
     } catch (err) {
+      console.log(err.message);
       let { errorType } = err.response.data;
       if (errorType === 'missingPwOREm') {
         return alert('Password ou Email vazios', 'Preencha o email e password');

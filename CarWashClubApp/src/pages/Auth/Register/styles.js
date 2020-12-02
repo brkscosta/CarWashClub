@@ -50,6 +50,7 @@ export const TextHeaderContainer = styled.View`
 export const TextHeader = styled.Text`
   font-size: ${(props) => props.fontSize};
   font-family: 'Roboto-Light';
+  color: #262121;
 `;
 
 export const PasswordStrength = styled.Text`

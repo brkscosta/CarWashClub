@@ -11,6 +11,7 @@ export const View = styled.View`
       : (themes.primary = props.colorTheme)};
   border-radius: ${(props) => props.borderRadius || 3}px;
   height: ${(props) => props.height || 40};
+  width: ${(props) => props.width || 100};
   justify-content: center;
   align-items: center;
   margin-top: ${(props) => props.marginTop || 10}px;
