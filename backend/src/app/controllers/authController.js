@@ -15,8 +15,10 @@ generateToken = (params = {}) => {
 
 router.post("/register", async (req, res) => {
   let { email } = req.body;
+
   try {
     if (await User.findOne({ email })) {
+      console.log("User already exists with this email");
       return res.status(400).json({
         success: false,
         message: `User already exists with this email`,
@@ -91,6 +93,7 @@ router.post("/forgot_password", async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "User not found",
+        errorType: "userNotFound",
       });
     let token = crypto.randomBytes(20).toString("hex");
 
@@ -108,8 +111,10 @@ router.post("/forgot_password", async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       token: token,
+      email: email,
     };
-    const sent = await mail.isSendedEmail("resetPassword", params, email);
+
+    let sent = await mail.isSendedEmail("resetPassword", params, email);
 
     if (sent)
       return res
@@ -119,11 +124,14 @@ router.post("/forgot_password", async (req, res) => {
       return res.status(409).json({
         success: false,
         message: "Não foi possivel enviar a notificação",
+        errorType: "cantSendNotification",
       });
   } catch (err) {
-    return res
-      .status(400)
-      .json({ success: false, error: "Error on forgot password, try again" });
+    return res.status(400).json({
+      success: false,
+      error: "Error on forgot password, try again",
+      errorType: "errorForgot",
+    });
   }
 });
 

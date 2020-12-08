@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto";
+  background-color: #41aea9;
+}
+
+.main {
+  background-color: #fff;
+  position: absolute;
+  display: block;
+  width: 85%;
+  height: 85%;
+  left: 8%;
+  top: 10%;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: 300px;
+  height: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #fff;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin: 10px 10px;
+  width: 300px;
+}
+
+.form-label {
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.api-container {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.api-messages {
+  align-self: center;
+  font-size: 16px;
+  margin-top: 15px;
+  color: #078d86;
+  font-weight: bold;
+}
+
+.form-input {
+  height: 30px;
+  outline: none;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+button {
+  align-self: center;
+  border-radius: 6px;
+  width: 45%;
+  height: 30px;
+  font-size: 18px;
+  outline: none;
+  background-color: #41aea9;
+  transition: background-color 0.5s ease-in;
+}
+
+button:hover {
+  transition: background-color 0.5s ease-in;
+  background-color: #84c3c0;
+}

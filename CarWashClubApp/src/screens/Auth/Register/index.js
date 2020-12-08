@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text } from 'react-native';
-
+import { StyleSheet } from 'react-native';
 import {
-  Scroll,
   TextHeaderContainer,
   TextHeader,
   PasswordStrength,
@@ -10,6 +8,7 @@ import {
 } from './styles';
 
 import {
+  Scroll,
   Header,
   MainContainer,
   Input,
@@ -20,11 +19,7 @@ import {
 import { Icon, CheckBox } from 'react-native-elements';
 import { api } from '../../../services/api';
 
-import {
-  validateEmail,
-  alert,
-  passwordValidation,
-} from '../../../services/utils';
+import { validateEmail, alert, passwordCheck } from '../../../services/utils';
 
 const Register = ({ route, navigation }) => {
   useEffect(() => {
@@ -41,11 +36,7 @@ const Register = ({ route, navigation }) => {
       },
       headerLeft: (props) => (
         <Icon
-          iconStyle={{
-            marginLeft: 10,
-            marginTop: 10,
-            color: '#FFF',
-          }}
+          iconStyle={styles.icon}
           name="chevron-circle-left"
           type="font-awesome"
           {...props}
@@ -62,31 +53,9 @@ const Register = ({ route, navigation }) => {
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
   let [rgpd, setRgpd] = useState(false);
-  let [isDataValidated, setIsDataValidated] = useState(false);
 
-  const passwordCheck = () => {
-    if (password === '') {
-      return <Text>{''}</Text>;
-    }
-    if (!password.match(/([0-9])+$/)) {
-      return (
-        <>
-          <PasswordStrength>Deve conter um número</PasswordStrength>
-        </>
-      );
-    }
-    if (password.length < 8) {
-      return (
-        <PasswordStrength>A password tem de ter 8 caracteres.</PasswordStrength>
-      );
-    }
-    if (!password.match(/(?=.*[A-Z])/)) {
-      return (
-        <>
-          <PasswordStrength>Deve conter letra maiuscula</PasswordStrength>
-        </>
-      );
-    }
+  const isDataValidated = () => {
+    return !email && !password && !firstName && !lastName && !rgpd;
   };
 
   let handleSignUp = async () => {
@@ -144,31 +113,38 @@ const Register = ({ route, navigation }) => {
               <TextHeader fontSize="20">Registe-se para continuar</TextHeader>
             </TextHeaderContainer>
           </Header>
-          <InputContainer height={100}>
+          <InputContainer>
             <Input
               fontStyle="BoldItalic"
               required={true}
               placeholder="Primeiro Nome"
               onChangeText={(firstNameParam) => setFirstName(firstNameParam)}
             />
-            {!firstName.match(/^[a-zA-Z]+$/) && firstName.length > 2 && (
-              <PasswordStrength>Este campo só aceita letras</PasswordStrength>
-            )}
+            {!firstName.match(/^[A-Za-z\u00C0-\u017F\s]+$/) &&
+              firstName.length > 2 && (
+                <PasswordStrength>Este campo só aceita letras</PasswordStrength>
+              )}
             <Input
               fontStyle="BoldItalic"
               required={true}
               placeholder="Último Nome"
               onChangeText={(lastNameParam) => setLastName(lastNameParam)}
             />
-            {!lastName.match(/^[a-zA-Z]+$/) && lastName.length > 2 && (
-              <PasswordStrength>Este campo só aceita letras</PasswordStrength>
-            )}
+            {!lastName.match(/^[[A-Za-z\u00C0-\u017F\s]+$/) &&
+              lastName.length > 2 && (
+                <PasswordStrength>Este campo só aceita letras</PasswordStrength>
+              )}
             <Input
               fontStyle="BoldItalic"
               required={true}
-              placeholder="Email"
+              placeholder="example@example.com"
               onChangeText={(emailParam) => setEmail(emailParam)}
             />
+            {!validateEmail(email) && email.length > 0 && (
+              <PasswordStrength>
+                Formato de email não suportado
+              </PasswordStrength>
+            )}
             <Input
               fontStyle="BoldItalic"
               required={true}
@@ -177,7 +153,7 @@ const Register = ({ route, navigation }) => {
               placeholder="password"
               onChangeText={(passwordParam) => setPassword(passwordParam)}
             />
-            {passwordCheck()}
+            {passwordCheck(password)}
             <CheckboxContainer>
               <CheckBox
                 center={true}
@@ -204,5 +180,13 @@ const Register = ({ route, navigation }) => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  icon: {
+    marginLeft: 10,
+    marginTop: 10,
+    color: '#FFF',
+  },
+});
 
 export default Register;

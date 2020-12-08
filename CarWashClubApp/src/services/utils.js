@@ -1,4 +1,6 @@
+import React from 'react';
 import { Alert } from 'react-native';
+import { TextView } from '../components';
 
 export const alert = (alertTitle, alertText) => {
   Alert.alert(
@@ -24,4 +26,19 @@ export const validateEmail = (emailParam) => {
 export const passwordValidation = (passwordParam) => {
   const expression = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
   return expression.test(String(passwordParam).toLowerCase());
+};
+
+export const passwordCheck = (password) => {
+  if (password === '') {
+    return <TextView>{''}</TextView>;
+  }
+  if (!password.match(/([0-9])+$/)) {
+    return <TextView>Deve conter um número</TextView>;
+  }
+  if (password.length < 8) {
+    return <TextView>A password tem de ter 8 caracteres.</TextView>;
+  }
+  if (!password.match(/(?=.*[A-Z])/)) {
+    return <TextView>Deve conter letra maiuscula</TextView>;
+  }
 };

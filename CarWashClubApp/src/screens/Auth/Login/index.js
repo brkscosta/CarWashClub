@@ -60,7 +60,11 @@ const Login = ({ navigation }) => {
           <ContainerForgotPassword>
             <TouchableHighlight
               underlayColor={'#FFF'}
-              onPress={() => navigation.navigate('ResetPassword')}
+              onPress={() =>
+                navigation.navigate('RequestToChangePassword', {
+                  isHeaderActive: true,
+                })
+              }
             >
               <TextView>Recuperar Password</TextView>
             </TouchableHighlight>

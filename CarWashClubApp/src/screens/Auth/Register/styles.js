@@ -34,12 +34,6 @@ export const ButtonContainer = styled.View`
   margin-left: 2%;
 `;
 
-export const Scroll = styled.ScrollView`
-  width: ${wp('100%')};
-  height: ${hp('100%')};
-  margin-bottom: 10px;
-`;
-
 export const TextHeaderContainer = styled.View`
   width: ${wp('60%')};
   height: ${hp('10%')};

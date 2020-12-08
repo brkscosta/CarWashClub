@@ -8,9 +8,11 @@ import {
 import { Input } from './Input';
 import { MenuBar } from './MenuBar';
 import { TextView } from './TextView';
+import { Scroll } from './Scroll';
 
 export {
   Button,
+  Scroll,
   MainContainer,
   Input,
   MenuBar,

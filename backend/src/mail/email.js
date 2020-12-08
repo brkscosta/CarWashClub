@@ -12,7 +12,7 @@ var subjects = {
 
 async function isSendedEmail(action, params, recipient) {
   try {
-    var email = {
+    let email = {
       to: recipient,
       from: {
         email: config.emailAddress,
@@ -22,7 +22,6 @@ async function isSendedEmail(action, params, recipient) {
 
     // Get email subject
     email.subject = subjects[action];
-
     // Get email html
     email.html = await ejs.renderFile(
       __dirname + "/templates/" + action + ".ejs",
@@ -30,11 +29,11 @@ async function isSendedEmail(action, params, recipient) {
     );
 
     console.log(email);
-    var sent = false;
+    let sent = false;
 
     // Send email
     await sgMail
-      .sendStatus(email)
+      .send(email)
       .then(async (res) => {
         sent = true;
       })
@@ -42,7 +41,6 @@ async function isSendedEmail(action, params, recipient) {
 
     return sent;
   } catch (err) {
-    console.log(err);
     return false;
   }
 }

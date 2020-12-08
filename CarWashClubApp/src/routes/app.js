@@ -1,5 +1,5 @@
 import React from 'react';
-import MainScreeen from '../pages/Main';
+import MainScreeen from '../screens/Main';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const AppStack = createStackNavigator();
