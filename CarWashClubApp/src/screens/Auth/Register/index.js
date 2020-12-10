@@ -1,3 +1,4 @@
+//#region Imports
 import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import {
@@ -20,6 +21,8 @@ import { Icon, CheckBox } from 'react-native-elements';
 import { api } from '../../../services/api';
 
 import { validateEmail, alert, passwordCheck } from '../../../services/utils';
+
+//#endregion
 
 const Register = ({ route, navigation }) => {
   useEffect(() => {
@@ -109,7 +112,9 @@ const Register = ({ route, navigation }) => {
         <Scroll>
           <Header>
             <TextHeaderContainer>
-              <TextHeader fontSize="24">Bem-Vindo</TextHeader>
+              <TextHeader fontSize="24" adjustsFontSizeToFit={true}>
+                Bem-Vindo
+              </TextHeader>
               <TextHeader fontSize="20">Registe-se para continuar</TextHeader>
             </TextHeaderContainer>
           </Header>

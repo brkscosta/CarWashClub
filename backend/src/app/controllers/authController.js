@@ -3,12 +3,12 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const authconfig = require("../../config/auth.json");
+const config = require("../../config");
 const crypto = require("crypto");
 const mail = require("../../mail/email");
 
 generateToken = (params = {}) => {
-  return jwt.sign(params, authconfig.secrect, {
+  return jwt.sign(params, config.secretHashKeyToken, {
     expiresIn: "10h",
   });
 };

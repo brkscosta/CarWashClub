@@ -1,4 +1,4 @@
-var config = require("../config/config");
+var config = require("../config");
 var ejs = require("ejs");
 var sgMail = require("@sendgrid/mail");
 //require('dotenv').config({path:'../../'});

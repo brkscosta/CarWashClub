@@ -1,3 +1,4 @@
+//#region Imports
 import React, { useState } from 'react';
 import { StyleSheet, Image, TouchableHighlight } from 'react-native';
 import { imoLogo } from '../../../assets/images/';
@@ -21,6 +22,7 @@ import {
 } from '../../../components';
 
 import { useAuth } from '../../../contexts/auth';
+//#endregion
 
 const Login = ({ navigation }) => {
   let { signIn } = useAuth();
