@@ -1,0 +1,29 @@
+{
+  "errors": {
+    "userNotFound": { "id": 1, "message": "User not found" },
+    "userAlredyTaken": { "id": 2, "message": "This email already exists" },
+    "emptyFields": { "id": 3, "message": "You need to enter all fields" },
+    "missingPassworOrEmail": {
+      "id": 4,
+      "message": "Missing email or password"
+    },
+    "invalidPassword": { "id": 5, "message": "Invalid password" },
+    "cantSendNotification": { "id": 6, "message": "Can't send notification" },
+    "errorForgot": {
+      "id": 7,
+      "message": "Iternal server error on forgot password"
+    },
+    "invalidToken": { "id": 8, "message": "This token is invalid" },
+    "tokenExpired": { "id": 9, "message": "Token expired" },
+    "internalServerError": { "id": 10, "message": "Inter server error" }
+  },
+  "success": {
+    "userTokenGenerated": { "id": 11, "message": "User token generated" },
+    "notificationSended": { "id": 12, "message": "Notification Sended" },
+    "passwordReset": { "id": 13, "message": "You password was reseted" },
+    "userAuthenticated": {
+      "id": 14,
+      "message": "user authenticated successfully"
+    }
+  }
+}

@@ -1,4 +1,8 @@
 import styled from 'styled-components/native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export const ContainerLogo = styled.View`
   justify-content: center;
@@ -19,7 +23,7 @@ export const ImageContainer = styled.View`
 export const LoginContainer = styled.View`
   display: flex;
   flex-direction: column;
-  margin-top: 5%;
+  margin-top: ${wp('10%')};
   align-items: center;
 `;
 

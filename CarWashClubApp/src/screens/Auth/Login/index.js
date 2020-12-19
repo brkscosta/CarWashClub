@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import { StyleSheet, Image, TouchableHighlight } from 'react-native';
 import { imoLogo } from '../../../assets/images/';
 import { validateEmail, alert } from '../../../services/utils';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import {
   ContainerRegisterText,
   ContainerForgotPassword,
@@ -13,14 +16,14 @@ import {
 
 import {
   MainContainer,
-  Input,
+  Scroll,
   Button,
   InputContainer,
   Header,
   FooterContainer,
   TextView,
 } from '../../../components';
-
+import { Input, Icon } from 'react-native-elements';
 import { useAuth } from '../../../contexts/auth';
 //#endregion
 
@@ -28,14 +31,19 @@ const Login = ({ navigation }) => {
   let { signIn } = useAuth();
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
+  let [secureTextEntry, setSecureTextEntry] = useState(true);
 
-  async function handleSignIn() {
+  const handleSignIn = async () => {
     if (validateEmail(email)) {
       signIn(email, password);
     } else {
       alert('Email não válido', 'Por favor corrija o seu email');
     }
-  }
+  };
+
+  const onPassPress = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
 
   return (
     <MainContainer>
@@ -44,60 +52,86 @@ const Login = ({ navigation }) => {
           <Image source={imoLogo} style={styles.imoLogo} />
         </ImageContainer>
       </Header>
-      <InputContainer height={55}>
-        <LoginContainer>
-          <Input
-            fontStyle="BoldItalic"
-            type="font-awesome"
-            placeholder="example@example.com"
-            onChangeText={(emailParam) => setEmail(emailParam)}
-          />
-          <Input
-            fontStyle="BoldItalic"
-            type="font-awesome"
-            placeholder="password"
-            secureTextEntry={true}
-            onChangeText={(passParam) => setPassword(passParam)}
-          />
-          <ContainerForgotPassword>
-            <TouchableHighlight
-              underlayColor={'#FFF'}
-              onPress={() =>
-                navigation.navigate('RequestToChangePassword', {
-                  isHeaderActive: true,
-                })
+      <InputContainer>
+        <Scroll>
+          <LoginContainer>
+            <Input
+              inputStyle={{ fontFamily: 'Roboto-Regular' }}
+              autoCapitalize="none"
+              autoCorrect={false}
+              containerStyle={{
+                width: wp('100%'),
+              }}
+              placeholder="email@email.com"
+              textContentType="emailAddress"
+              rightIcon={
+                <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
               }
-            >
-              <TextView>Recuperar Password</TextView>
-            </TouchableHighlight>
-          </ContainerForgotPassword>
-          <Button
-            title="Entrar"
-            onPress={handleSignIn}
-            fontSize={22}
-            borderRadius={10}
-            colorTheme="#41aea9"
-            marginTop={25}
-            width={330}
-          />
-          <ContainerRegisterText>
-            <TouchableHighlight
-              underlayColor={'#FFF'}
-              onPress={() =>
-                navigation.navigate('Register', { isHeaderActive: true })
+              onChangeText={(emailParam) => setEmail(emailParam)}
+            />
+            <Input
+              inputStyle={{ fontFamily: 'Roboto-Medium' }}
+              containerStyle={{
+                width: wp('100%'),
+              }}
+              placeholder="password"
+              rightIcon={
+                secureTextEntry ? (
+                  <Icon
+                    name="eye"
+                    size={26}
+                    type="ionicon"
+                    onPress={onPassPress}
+                    color="#41aea9"
+                  />
+                ) : (
+                  <Icon
+                    brand={true}
+                    name="eye-off"
+                    size={26}
+                    type="ionicon"
+                    onPress={onPassPress}
+                    color="#e0e045"
+                  />
+                )
               }
-            >
-              <TextView>Não tem conta? Registar</TextView>
-            </TouchableHighlight>
-          </ContainerRegisterText>
-        </LoginContainer>
+              onChangeText={(emailParam) => setPassword(emailParam)}
+              secureTextEntry={secureTextEntry}
+            />
+
+            <ContainerForgotPassword>
+              <TouchableHighlight
+                underlayColor={'#FFF'}
+                onPress={() =>
+                  navigation.navigate('RequestToChangePassword', {
+                    isHeaderActive: true,
+                  })
+                }
+              >
+                <TextView>Recuperar Password</TextView>
+              </TouchableHighlight>
+            </ContainerForgotPassword>
+            <Button
+              title="Entrar"
+              onPress={handleSignIn}
+              fontSize={22}
+              colorTheme="#41aea9"
+              marginTop={25}
+            />
+            <ContainerRegisterText>
+              <TouchableHighlight
+                underlayColor={'#FFF'}
+                onPress={() =>
+                  navigation.navigate('Register', { isHeaderActive: true })
+                }
+              >
+                <TextView>Não tem conta? Registar</TextView>
+              </TouchableHighlight>
+            </ContainerRegisterText>
+          </LoginContainer>
+        </Scroll>
       </InputContainer>
-      <FooterContainer
-        paddingTop={18}
-        paddingBottom={15}
-        marginTop={100}
-        marginLeft={10}
-      />
+      <FooterContainer />
     </MainContainer>
   );
 };

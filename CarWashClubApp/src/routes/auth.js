@@ -5,18 +5,27 @@ import ResetPassword from '../screens/Auth/ResetPassword';
 import RequestToChangePassword from '../screens/Auth/RequestToChangePassword';
 import { createStackNavigator } from '@react-navigation/stack';
 import Orientation from 'react-native-orientation';
+import { useAuth } from '../contexts/auth';
 
 const AuthStack = createStackNavigator();
 
 const AuthRoutes = () => {
+  useAuth();
   useEffect(() => {
     Orientation.lockToPortrait();
   }, []);
+
   return (
     <>
       <AuthStack.Navigator
         screenOptions={{
           headerShown: false,
+          safeAreaInsets: { top: 4 },
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#41aea9',
+            fontFamily: 'Roboto-Medium',
+          },
         }}
       >
         <AuthStack.Screen name="Login" component={Login} />

@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../../config");
 const crypto = require("crypto");
 const mail = require("../../mail/email");
+const apiMessages = require("../../config/api-messages.json");
 
 generateToken = (params = {}) => {
   return jwt.sign(params, config.secretHashKeyToken, {
@@ -18,11 +19,9 @@ router.post("/register", async (req, res) => {
 
   try {
     if (await User.findOne({ email })) {
-      console.log("User already exists with this email");
       return res.status(400).json({
         success: false,
-        message: `User already exists with this email`,
-        errorType: "userAlredyTaken",
+        message: apiMessages.errors.userAlredyTaken,
       });
     }
 
@@ -33,12 +32,12 @@ router.post("/register", async (req, res) => {
       success: true,
       user,
       token: generateToken({ id: user._id }),
+      message: apiMessages.success.userTokenGenerated,
     });
   } catch (err) {
     return res.status(400).json({
       success: false,
-      error: "Registration failed",
-      errorType: "emptyFields",
+      message: apiMessages.errors.internalServerError,
     });
   }
 });
@@ -49,8 +48,7 @@ router.post("/authenticate", async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({
       success: false,
-      error: "Password and email are required",
-      errorType: "missingPwOREm",
+      message: apiMessages.errors.emptyFields,
     });
   }
 
@@ -60,8 +58,7 @@ router.post("/authenticate", async (req, res) => {
     console.log("User not found");
     return res.status(404).json({
       success: false,
-      message: "User not found",
-      errorType: "userNotFound",
+      message: apiMessages.errors.userNotFound,
     });
   }
 
@@ -70,8 +67,7 @@ router.post("/authenticate", async (req, res) => {
   if (!flag) {
     return res.status(400).json({
       success: true,
-      message: "Invalid password",
-      errorType: "invalidPw",
+      message: apiMessages.errors.invalidPassword,
     });
   } else {
     user.password = undefined;
@@ -80,6 +76,7 @@ router.post("/authenticate", async (req, res) => {
       success: true,
       user,
       token: generateToken({ id: user._id }),
+      message: apiMessages.success.userAuthenticated,
     });
   }
 });
@@ -92,10 +89,9 @@ router.post("/forgot_password", async (req, res) => {
     if (!user)
       return res.status(400).json({
         success: false,
-        message: "User not found",
-        errorType: "userNotFound",
+        message: apiMessages.errors.userNotFound,
       });
-    let token = crypto.randomBytes(20).toString("hex");
+    let token = crypto.randomBytes(6).toString("hex");
 
     let now = new Date();
     now.setHours(now.getHours() + 2);
@@ -117,20 +113,19 @@ router.post("/forgot_password", async (req, res) => {
     let sent = await mail.isSendedEmail("resetPassword", params, email);
 
     if (sent)
-      return res
-        .status(200)
-        .json({ success: true, message: "Notificação enviada com sucesso" });
+      return res.status(200).json({
+        success: true,
+        message: apiMessages.success.notificationSended,
+      });
     else
       return res.status(409).json({
         success: false,
-        message: "Não foi possivel enviar a notificação",
-        errorType: "cantSendNotification",
+        message: apiMessages.errors.cantSendNotification,
       });
   } catch (err) {
-    return res.status(400).json({
+    return res.status(500).json({
       success: false,
-      error: "Error on forgot password, try again",
-      errorType: "errorForgot",
+      message: apiMessages.errors.internalServerError,
     });
   }
 });
@@ -144,29 +139,34 @@ router.post("/reset_password", async (req, res) => {
     );
 
     if (!user)
-      return res
-        .status(400)
-        .json({ success: false, message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: apiMessages.errors.userNotFound,
+      });
     if (token !== user.passwordResetToken)
-      return res.status(400).json({ success: false, message: "Invalid Token" });
+      return res.status(400).json({
+        success: false,
+        message: apiMessages.errors.invalidToken,
+      });
 
     let now = new Date();
 
     if (now > user.passwordResetExpires)
-      return res
-        .status(400)
-        .json({ success: false, message: "Token expired, generate a new one" });
+      return res.status(400).json({
+        success: false,
+        message: apiMessages.errors.tokenExpired,
+      });
 
     user.password = password;
     await user.save(); // Save current user
     return res
       .status(200)
-      .json({ success: true, message: "Password reseted!" });
+      .json({ success: true, message: apiMessages.success.passwordReset });
   } catch (err) {
-    console.log(err);
-    return res
-      .status(400)
-      .json({ success: false, error: "Cannot reset password" });
+    return res.status(500).json({
+      success: false,
+      message: apiMessages.errors.internalServerError,
+    });
   }
 });
 

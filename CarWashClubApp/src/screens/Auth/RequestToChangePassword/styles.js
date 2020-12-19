@@ -29,3 +29,9 @@ export const TextEmailError = styled.Text`
   text-align: justify;
   font-family: 'Roboto-Regular';
 `;
+export const InputContainer = styled.View`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: ${wp('100%')};
+`;

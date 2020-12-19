@@ -60,3 +60,15 @@ export const CheckboxContainer = styled.View`
   flex-direction: row;
   margin-top: 10px;
 `;
+
+export const InputContainerRegister = styled.View`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: ${wp('100%')};
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
+  background-color: #fff;
+  margin-bottom: 60px;
+`;

@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { api, setClientToken } from '../services/api';
-import SplashScreen from 'react-native-splash-screen';
 import { alert } from '../services/utils';
 
 const AuthContext = createContext();
@@ -18,8 +17,8 @@ export const AuthProvider = ({ children }) => {
       if (storageUser && storageToken) {
         setClientToken(storageToken);
         setUser(JSON.parse(storageUser));
-        SplashScreen.hide();
       }
+      setLoading(false);
     }
     loadStorageData();
   }, []);
@@ -42,6 +41,7 @@ export const AuthProvider = ({ children }) => {
         JSON.stringify(response.data.user)
       );
       await AsyncStorage.setItem('@CarWashClub:token', response.data.token);
+      await AsyncStorage.setItem('@CarWashClub:alredyLoggedIn', true);
     } catch (err) {
       console.log(err.message);
       let { errorType } = err.response.data;

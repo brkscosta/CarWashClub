@@ -6,20 +6,22 @@ import {
   TextHeader,
   PasswordStrength,
   CheckboxContainer,
+  RegisterInput,
+  InputContainerRegister,
 } from './styles';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import {
   Scroll,
   Header,
   MainContainer,
-  Input,
   Button,
   FooterContainer,
-  InputContainer,
 } from '../../../components';
-import { Icon, CheckBox } from 'react-native-elements';
+import { Icon, CheckBox, Input } from 'react-native-elements';
 import { api } from '../../../services/api';
-
 import { validateEmail, alert, passwordCheck } from '../../../services/utils';
 
 //#endregion
@@ -30,13 +32,7 @@ const Register = ({ route, navigation }) => {
     navigation.setOptions({
       headerShown: isHeaderActive,
       title: 'Registo',
-      headerStyle: { backgroundColor: '#41aea9' },
       headerTintColor: '#fff',
-      headerTitleStyle: {
-        textAlign: 'center',
-        marginTop: 10,
-        marginRight: 50,
-      },
       headerLeft: (props) => (
         <Icon
           iconStyle={styles.icon}
@@ -56,6 +52,11 @@ const Register = ({ route, navigation }) => {
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
   let [rgpd, setRgpd] = useState(false);
+  let [secureTextEntry, setSecureTextEntry] = useState(true);
+
+  const onPassPress = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
 
   const isDataValidated = () => {
     return !email && !password && !firstName && !lastName && !rgpd;
@@ -109,18 +110,20 @@ const Register = ({ route, navigation }) => {
   return (
     <>
       <MainContainer>
+        <Header height={10}>
+          <TextHeaderContainer>
+            <TextHeader fontSize="24" adjustsFontSizeToFit={true}>
+              Bem-Vindo
+            </TextHeader>
+            <TextHeader fontSize="20">Registe-se para continuar</TextHeader>
+          </TextHeaderContainer>
+        </Header>
         <Scroll>
-          <Header>
-            <TextHeaderContainer>
-              <TextHeader fontSize="24" adjustsFontSizeToFit={true}>
-                Bem-Vindo
-              </TextHeader>
-              <TextHeader fontSize="20">Registe-se para continuar</TextHeader>
-            </TextHeaderContainer>
-          </Header>
-          <InputContainer>
+          <InputContainerRegister>
             <Input
-              fontStyle="BoldItalic"
+              rightIcon={
+                <Icon name="person" size={26} type="ionicon" color="#41aea9" />
+              }
               required={true}
               placeholder="Primeiro Nome"
               onChangeText={(firstNameParam) => setFirstName(firstNameParam)}
@@ -130,7 +133,9 @@ const Register = ({ route, navigation }) => {
                 <PasswordStrength>Este campo só aceita letras</PasswordStrength>
               )}
             <Input
-              fontStyle="BoldItalic"
+              rightIcon={
+                <Icon name="person" size={26} type="ionicon" color="#41aea9" />
+              }
               required={true}
               placeholder="Último Nome"
               onChangeText={(lastNameParam) => setLastName(lastNameParam)}
@@ -140,7 +145,11 @@ const Register = ({ route, navigation }) => {
                 <PasswordStrength>Este campo só aceita letras</PasswordStrength>
               )}
             <Input
-              fontStyle="BoldItalic"
+              autoCapitalize="none"
+              autoCorrect={false}
+              rightIcon={
+                <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
+              }
               required={true}
               placeholder="example@example.com"
               onChangeText={(emailParam) => setEmail(emailParam)}
@@ -151,12 +160,33 @@ const Register = ({ route, navigation }) => {
               </PasswordStrength>
             )}
             <Input
-              fontStyle="BoldItalic"
-              required={true}
-              secureTextEntry={true}
-              textContentType="password"
+              inputStyle={{ fontFamily: 'Roboto-Medium' }}
+              containerStyle={{
+                width: wp('100%'),
+              }}
               placeholder="password"
-              onChangeText={(passwordParam) => setPassword(passwordParam)}
+              rightIcon={
+                secureTextEntry ? (
+                  <Icon
+                    name="eye"
+                    size={26}
+                    type="ionicon"
+                    onPress={onPassPress}
+                    color="#41aea9"
+                  />
+                ) : (
+                  <Icon
+                    brand={true}
+                    name="eye-off"
+                    size={26}
+                    type="ionicon"
+                    onPress={onPassPress}
+                    color="#e0e045"
+                  />
+                )
+              }
+              onChangeText={(emailParam) => setPassword(emailParam)}
+              secureTextEntry={secureTextEntry}
             />
             {passwordCheck(password)}
             <CheckboxContainer>
@@ -167,20 +197,18 @@ const Register = ({ route, navigation }) => {
                 onPress={() => (rgpd ? setRgpd(false) : setRgpd(true))}
               />
             </CheckboxContainer>
-          </InputContainer>
-          <FooterContainer paddingTop={4} marginTop={95}>
-            {isDataValidated && (
-              <Button
-                title="Registar"
-                onPress={handleSignUp}
-                fontSize={22}
-                borderRadius={10}
-                colorTheme="#41aea9"
-                width={350}
-              />
-            )}
-          </FooterContainer>
+          </InputContainerRegister>
         </Scroll>
+        <FooterContainer>
+          {isDataValidated && (
+            <Button
+              title="Registar"
+              onPress={handleSignUp}
+              fontSize={22}
+              colorTheme="#41aea9"
+            />
+          )}
+        </FooterContainer>
       </MainContainer>
     </>
   );

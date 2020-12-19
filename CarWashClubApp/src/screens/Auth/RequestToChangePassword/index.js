@@ -1,4 +1,4 @@
-/* eslint-disable prettier/prettier */
+//#endregion Imports
 import React, { useState, useEffect } from 'react';
 import { TextHeader, TextHeaderContainer, TextEmailError } from './styles';
 import { StyleSheet } from 'react-native';
@@ -6,14 +6,14 @@ import {
   Scroll,
   Header,
   MainContainer,
-  Input,
   Button,
   FooterContainer,
-  InputContainer,
 } from '../../../components';
 import { api } from '../../../services/api';
 import { validateEmail, alert } from '../../../services/utils';
-import { Icon } from 'react-native-elements';
+import { Icon, Input } from 'react-native-elements';
+import { InputContainer } from './styles';
+//#endregion
 
 const RequestToChangePassword = ({ route, navigation }) => {
   let [email, setEmail] = useState('');
@@ -24,13 +24,7 @@ const RequestToChangePassword = ({ route, navigation }) => {
     navigation.setOptions({
       headerShown: isHeaderActive,
       title: 'Recuperar Password',
-      headerStyle: { backgroundColor: '#41aea9' },
       headerTintColor: '#fff',
-      headerTitleStyle: {
-        textAlign: 'center',
-        marginTop: 10,
-        marginRight: 50,
-      },
       headerLeft: (props) => (
         <Icon
           iconStyle={styles.icon}
@@ -77,47 +71,53 @@ const RequestToChangePassword = ({ route, navigation }) => {
 
   return (
     <MainContainer>
+      <Header>
+        <TextHeaderContainer>
+          <TextHeader fontSize={18}>
+            Ponha os dados abaixo para recuperar a sua password
+          </TextHeader>
+        </TextHeaderContainer>
+      </Header>
       <Scroll>
-        <Header>
-          <TextHeaderContainer>
-            <TextHeader fontSize={18}>
-              Ponha os dados abaixo para recuperar a sua password
-            </TextHeader>
-          </TextHeaderContainer>
-        </Header>
         <InputContainer>
           <Input
-            fontStyle="BoldItalic"
-            placeholder="email@example.com"
-            onChangeText={(emailParam) => setEmail(emailParam)}
+            inputStyle={{ fontFamily: 'Roboto-Medium' }}
+            autoCapitalize="none"
+            autoCorrect={false}
+            rightIcon={
+              <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
+            }
             required={true}
+            placeholder="example@example.com"
+            onChangeText={(emailParam) => setEmail(emailParam)}
           />
           {!validateEmail(email) && email.length > 0 && (
             <TextEmailError>Este email não é válido</TextEmailError>
           )}
           <Input
-            fontStyle="BoldItalic"
-            required={true}
-            placeholder="Confirmar email"
-            onChangeText={(confirmEmailParam) =>
-              setConfirmEmail(confirmEmailParam)
+            inputStyle={{ fontFamily: 'Roboto-Medium' }}
+            autoCapitalize="none"
+            autoCorrect={false}
+            rightIcon={
+              <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
             }
+            required={true}
+            placeholder="example@example.com"
+            onChangeText={(emailParam) => setConfirmEmail(emailParam)}
           />
           {email !== confirmEmail && (
             <TextEmailError>Os email's não são iguais</TextEmailError>
           )}
         </InputContainer>
-        <FooterContainer paddingTop={4} marginTop={40}>
-          <Button
-            title="Recuperar Password"
-            onPress={handleChangePassword}
-            fontSize={22}
-            borderRadius={10}
-            colorTheme="#41aea9"
-            width={350}
-          />
-        </FooterContainer>
       </Scroll>
+      <FooterContainer>
+        <Button
+          title="Recuperar Password"
+          onPress={handleChangePassword}
+          fontSize={22}
+          colorTheme="#41aea9"
+        />
+      </FooterContainer>
     </MainContainer>
   );
 };
