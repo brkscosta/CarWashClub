@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       let response = await api.post('/auth/authenticate', data);
 
       setUser(response);
-
       setClientToken(response.token);
 
       await AsyncStorage.setItem(
@@ -41,17 +40,16 @@ export const AuthProvider = ({ children }) => {
         JSON.stringify(response.data.user)
       );
       await AsyncStorage.setItem('@CarWashClub:token', response.data.token);
-      await AsyncStorage.setItem('@CarWashClub:alredyLoggedIn', true);
     } catch (err) {
-      console.log(err.message);
-      let { errorType } = err.response.data;
-      if (errorType === 'missingPwOREm') {
+      let { message } = err.response.data;
+      console.log(message);
+      if (message.id === 3) {
         return alert('Password ou Email vazios', 'Preencha o email e password');
       }
-      if (errorType === 'invalidPw') {
+      if (message.id === 5) {
         return alert('Password Inválida', 'A sua password não está correta');
       }
-      if (errorType === 'userNotFound') {
+      if (message.id === 1) {
         return alert(
           'Utilizador não registado',
           'Este utilizador não está registado'
@@ -75,8 +73,8 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export function useAuth() {
+export const useAuth = () => {
   let context = useContext(AuthContext);
 
   return context;
-}
+};

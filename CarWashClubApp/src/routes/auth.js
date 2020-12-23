@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import Login from '../screens/Auth/Login';
 import Register from '../screens/Auth/Register';
 import ResetPassword from '../screens/Auth/ResetPassword';
@@ -17,6 +18,11 @@ const AuthRoutes = () => {
 
   return (
     <>
+      <StatusBar
+        barStyle="dark-content"
+        showHideTransition="slide"
+        animated={true}
+      />
       <AuthStack.Navigator
         screenOptions={{
           headerShown: false,

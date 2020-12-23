@@ -8,7 +8,7 @@ import styled from 'styled-components/native';
 export const MainContainer = styled.View`
   flex: 1;
   flex-direction: column;
-  background-color: #ffff;
+  background-color: ${(props) => props.backgroundColor || '#FFF'};
   height: ${hp('70%')};
   width: ${wp('100%')};
 `;
@@ -21,14 +21,14 @@ export const InputContainer = styled.View`
   width: ${wp('100%')};
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
-  background-color: #fff;
+  background-color: ${(props) => props.backgroundColor || '#FFF'};
   margin-top: 30%;
   position: absolute;
 `;
 
 export const Header = styled.View`
-  width: ${wp('100%')};
-  height: ${(props) => hp(props.height) || hp('20')};
+  width: ${(props) => hp(props.width) || wp('100%')};
+  height: ${(props) => hp(props.height) || hp('20%')};
   justify-content: center;
   flex-direction: column;
   align-items: center;

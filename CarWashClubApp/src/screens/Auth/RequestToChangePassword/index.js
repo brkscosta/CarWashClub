@@ -55,12 +55,13 @@ const RequestToChangePassword = ({ route, navigation }) => {
         );
       }
     } catch (error) {
-      if (error.errorType === 'errorForgot') {
+      let { message } = error.response.data;
+      if (message.id === 10) {
         return alert(
           'Error ao recuperar password',
           'indentificamos um erro interno ao mudar a sua password'
         );
-      } else if (error.errorType === 'cantSendNotification') {
+      } else if (message.id === 6) {
         return alert(
           'Não foi possível enviar o email',
           'Infelizmente não foi possível enviar o email. Tente mais tarde'

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './contexts/auth';
 import Routes from './routes';
@@ -6,16 +6,17 @@ import Routes from './routes';
 const App = () => {
   const config = {
     screens: {
-      Login: 'Login',
-      ResetPassword: 'ResetPassword',
-      Register: 'Register',
-      RequestToChangePassword: 'RequestToChangePassword',
+      Login: 'login',
+      ResetPassword: 'reset_password',
+      Register: 'register',
+      RequestToChangePassword: 'request_to_change_password',
+      Account: 'account',
     },
   };
 
   const linking = {
     enable: true,
-    prefixes: ['http://', 'carwashclub://'],
+    prefixes: ['carwashclub://', 'http://carwashclub'],
     config,
   };
 

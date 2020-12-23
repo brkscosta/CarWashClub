@@ -19,6 +19,7 @@ export const Button = (props) => {
         colorTheme={props.colorTheme}
         marginTop={props.marginTop}
         width={props.width}
+        {...props}
       >
         <Text fontSize={props.fontSize}>{props.title}</Text>
       </View>

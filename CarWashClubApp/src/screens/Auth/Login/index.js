@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
           <Image source={imoLogo} style={styles.imoLogo} />
         </ImageContainer>
       </Header>
-      <InputContainer>
+      <InputContainer backgroundColor="#e8ffff">
         <Scroll>
           <LoginContainer>
             <Input

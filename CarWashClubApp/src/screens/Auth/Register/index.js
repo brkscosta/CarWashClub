@@ -99,8 +99,8 @@ const Register = ({ route, navigation }) => {
           navigation.navigate('Login');
         }, 2000);
       } catch (error) {
-        let { errorType } = error.response.data;
-        if (errorType === 'userAlredyTaken') {
+        let { message } = error.response.data;
+        if (message.id === 2) {
           return alert('Email já associada', 'Tente recuperar a sua password!');
         }
       }
@@ -195,6 +195,9 @@ const Register = ({ route, navigation }) => {
                 checked={rgpd}
                 title="Aceito os tratamento dos meu dados ao fazer o registo"
                 onPress={() => (rgpd ? setRgpd(false) : setRgpd(true))}
+                containerStyle={{
+                  borderStyle: 'dashed',
+                }}
               />
             </CheckboxContainer>
           </InputContainerRegister>

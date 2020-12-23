@@ -69,6 +69,6 @@ export const InputContainerRegister = styled.View`
   width: ${wp('100%')};
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
-  background-color: #fff;
+  background-color: ${(props) => props.backgroundColor || '#FFF'};
   margin-bottom: 60px;
 `;

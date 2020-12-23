@@ -37,20 +37,11 @@ const ResetPassword = ({ route, navigation }) => {
         token: token,
       };
       let response = await api.post('/auth/reset_password', data);
-      console.log(response);
-      if (response.statusText === 'OK') {
+      if (response.status === 200) {
+        alert('Alteração concluída!', 'Por favor volte a fazer login.');
         setTimeout(() => {
-          navigation.navigate('Login');
-          return alert(
-            'Alteração concluída!',
-            'Por favor volte a fazer login.'
-          );
-        }, 900);
-      } else if (response.errcode) {
-        return alert(
-          'Error no servidor',
-          'Pedimos desculpas mas estamos com servidor não disponível neste momento'
-        );
+          return navigation.navigate('Login');
+        }, 1000);
       }
     } catch (error) {
       let { message } = error.response.data;
@@ -189,7 +180,7 @@ const ResetPassword = ({ route, navigation }) => {
         </InputContainer>
         <FooterContainer>
           <Button
-            title="Confirmar"
+            title="Mudar Password"
             onPress={handleChangeConfirmPassword}
             fontSize={22}
             colorTheme="#41aea9"

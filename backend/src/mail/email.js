@@ -28,7 +28,6 @@ async function isSendedEmail(action, params, recipient) {
       { params: params }
     );
 
-    console.log(email);
     let sent = false;
 
     // Send email

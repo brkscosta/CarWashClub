@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect } from 'react';
 import AppRoutes from './app';
 import AuthRoutes from './auth';
 import { useAuth } from '../contexts/auth';

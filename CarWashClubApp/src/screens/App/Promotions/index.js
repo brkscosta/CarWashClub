@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StatusBar } from 'react-native';
 import { useAuth } from '../../../contexts/auth';
 // import { Container } from './styles';
 
-const Promotions = () => {
-  const { user } = useAuth();
-
+const Promotions = ({ firstName, lastName }) => {
   return (
     <View>
-      <StatusBar backgroundColor="#40a8c4" />
-      <Text>Bem vindo {user?.firstName}</Text>
+      <Text>Promotions</Text>
     </View>
   );
 };
