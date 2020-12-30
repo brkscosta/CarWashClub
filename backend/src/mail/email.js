@@ -35,11 +35,15 @@ async function isSendedEmail(action, params, recipient) {
       .send(email)
       .then(async (res) => {
         sent = true;
+        console.log(res);
       })
-      .catch(async (err) => {});
+      .catch(async (err) => {
+        console.log(err);
+      });
 
     return sent;
   } catch (err) {
+    console.log(err);
     return false;
   }
 }
