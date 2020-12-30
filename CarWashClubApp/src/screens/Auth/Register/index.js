@@ -1,12 +1,10 @@
 //#region Imports
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import {
   TextHeaderContainer,
   TextHeader,
-  PasswordStrength,
   CheckboxContainer,
-  RegisterInput,
   InputContainerRegister,
 } from './styles';
 import {
@@ -19,10 +17,17 @@ import {
   MainContainer,
   Button,
   FooterContainer,
+  TextView,
 } from '../../../components';
 import { Icon, CheckBox, Input } from 'react-native-elements';
 import { api } from '../../../services/api';
-import { validateEmail, alert, passwordCheck } from '../../../services/utils';
+import {
+  validateEmail,
+  alert,
+  passwordCheck,
+  passwordValidation,
+} from '../../../services/utils';
+import { View } from 'react-native';
 
 //#endregion
 
@@ -31,7 +36,11 @@ const Register = ({ route, navigation }) => {
     const { isHeaderActive } = route.params;
     navigation.setOptions({
       headerShown: isHeaderActive,
-      title: 'Registo',
+      title: (
+        <TextView fontStyle="Thin" fontSize="30" color="#FFF">
+          Registo
+        </TextView>
+      ),
       headerTintColor: '#fff',
       headerLeft: (props) => (
         <Icon
@@ -59,7 +68,24 @@ const Register = ({ route, navigation }) => {
   };
 
   const isDataValidated = () => {
-    return !email && !password && !firstName && !lastName && !rgpd;
+    if (
+      email.length !== 0 &&
+      password.length !== 0 &&
+      firstName.length !== 0 &&
+      lastName.length !== 0 &&
+      rgpd &&
+      !passwordCheck(password) &&
+      validateEmail(email)
+    ) {
+      return (
+        <Button
+          title="Registar"
+          onPress={handleSignUp}
+          fontSize={22}
+          colorTheme="#0071ba"
+        />
+      );
+    }
   };
 
   let handleSignUp = async () => {
@@ -101,7 +127,7 @@ const Register = ({ route, navigation }) => {
       } catch (error) {
         let { message } = error.response.data;
         if (message.id === 2) {
-          return alert('Email já associada', 'Tente recuperar a sua password!');
+          return alert('Email já associado', 'Tente recuperar a sua password!');
         }
       }
     }
@@ -110,7 +136,7 @@ const Register = ({ route, navigation }) => {
   return (
     <>
       <MainContainer>
-        <Header height={10}>
+        <Header height={10} backgroundColor="#0071ba">
           <TextHeaderContainer>
             <TextHeader fontSize="24" adjustsFontSizeToFit={true}>
               Bem-Vindo
@@ -121,44 +147,53 @@ const Register = ({ route, navigation }) => {
         <Scroll>
           <InputContainerRegister>
             <Input
-              rightIcon={
-                <Icon name="person" size={26} type="ionicon" color="#41aea9" />
-              }
+              inputStyle={{ fontFamily: 'Roboto-Medium' }}
+              rightIcon={<Icon name="person" size={26} type="ionicon" />}
               required={true}
               placeholder="Primeiro Nome"
               onChangeText={(firstNameParam) => setFirstName(firstNameParam)}
-            />
-            {!firstName.match(/^[A-Za-z\u00C0-\u017F\s]+$/) &&
-              firstName.length > 2 && (
-                <PasswordStrength>Este campo só aceita letras</PasswordStrength>
-              )}
-            <Input
-              rightIcon={
-                <Icon name="person" size={26} type="ionicon" color="#41aea9" />
+              errorMessage={
+                !firstName.match(/^[[A-Za-z\u00C0-\u017F\s]+$/) &&
+                firstName.length > 2 && (
+                  <TextView color="red" fontSize={15}>
+                    Este campo só aceita letras
+                  </TextView>
+                )
               }
+            />
+
+            <Input
+              inputStyle={{ fontFamily: 'Roboto-Medium' }}
+              rightIcon={<Icon name="person" size={26} type="ionicon" />}
               required={true}
               placeholder="Último Nome"
               onChangeText={(lastNameParam) => setLastName(lastNameParam)}
+              errorMessage={
+                !lastName.match(/^[[A-Za-z\u00C0-\u017F\s]+$/) &&
+                lastName.length > 2 && (
+                  <TextView color="red" fontSize={15}>
+                    Este campo só aceita letras
+                  </TextView>
+                )
+              }
             />
-            {!lastName.match(/^[[A-Za-z\u00C0-\u017F\s]+$/) &&
-              lastName.length > 2 && (
-                <PasswordStrength>Este campo só aceita letras</PasswordStrength>
-              )}
             <Input
+              inputStyle={{ fontFamily: 'Roboto-Medium' }}
               autoCapitalize="none"
               autoCorrect={false}
-              rightIcon={
-                <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
-              }
+              rightIcon={<Icon name="mail" size={26} type="ionicon" />}
               required={true}
               placeholder="example@example.com"
               onChangeText={(emailParam) => setEmail(emailParam)}
+              errorMessage={
+                !validateEmail(email) &&
+                email.length > 0 && (
+                  <TextView color="red" fontSize={15}>
+                    Formato de email incorreto
+                  </TextView>
+                )
+              }
             />
-            {!validateEmail(email) && email.length > 0 && (
-              <PasswordStrength>
-                Formato de email não suportado
-              </PasswordStrength>
-            )}
             <Input
               inputStyle={{ fontFamily: 'Roboto-Medium' }}
               containerStyle={{
@@ -172,7 +207,6 @@ const Register = ({ route, navigation }) => {
                     size={26}
                     type="ionicon"
                     onPress={onPassPress}
-                    color="#41aea9"
                   />
                 ) : (
                   <Icon
@@ -181,37 +215,32 @@ const Register = ({ route, navigation }) => {
                     size={26}
                     type="ionicon"
                     onPress={onPassPress}
-                    color="#e0e045"
                   />
                 )
               }
               onChangeText={(emailParam) => setPassword(emailParam)}
               secureTextEntry={secureTextEntry}
+              errorMessage={passwordCheck(password)}
             />
-            {passwordCheck(password)}
             <CheckboxContainer>
               <CheckBox
                 center={true}
                 checked={rgpd}
-                title="Aceito os tratamento dos meu dados ao fazer o registo"
+                title={
+                  <Text style={{ fontFamily: 'Roboto-Medium' }}>
+                    Aceito os tratamento dos meu dados ao fazer o registo
+                  </Text>
+                }
                 onPress={() => (rgpd ? setRgpd(false) : setRgpd(true))}
                 containerStyle={{
-                  borderStyle: 'dashed',
+                  backgroundColor: 'transparent',
+                  borderWidth: 0,
                 }}
               />
             </CheckboxContainer>
           </InputContainerRegister>
         </Scroll>
-        <FooterContainer>
-          {isDataValidated && (
-            <Button
-              title="Registar"
-              onPress={handleSignUp}
-              fontSize={22}
-              colorTheme="#41aea9"
-            />
-          )}
-        </FooterContainer>
+        <FooterContainer>{isDataValidated()}</FooterContainer>
       </MainContainer>
     </>
   );

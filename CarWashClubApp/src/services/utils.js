@@ -33,12 +33,24 @@ export const passwordCheck = (password) => {
     return <TextView>{''}</TextView>;
   }
   if (!password.match(/([0-9])+$/)) {
-    return <TextView>Deve conter um número</TextView>;
+    return (
+      <TextView color="red" fontSize={15}>
+        Deve conter um número
+      </TextView>
+    );
   }
   if (password.length < 8) {
-    return <TextView>A password tem de ter 8 caracteres.</TextView>;
+    return (
+      <TextView color="red" fontSize={15}>
+        A password tem de ter 8 caracteres.
+      </TextView>
+    );
   }
   if (!password.match(/(?=.*[A-Z])/)) {
-    return <TextView>Deve conter letra maiuscula</TextView>;
+    return (
+      <TextView color="red" fontSize={15}>
+        Deve conter letra maiuscula
+      </TextView>
+    );
   }
 };

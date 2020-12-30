@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Text } from 'react-native';
 import Login from '../screens/Auth/Login';
 import Register from '../screens/Auth/Register';
 import ResetPassword from '../screens/Auth/ResetPassword';
@@ -22,6 +22,7 @@ const AuthRoutes = () => {
         barStyle="dark-content"
         showHideTransition="slide"
         animated={true}
+        backgroundColor="#0071ba"
       />
       <AuthStack.Navigator
         screenOptions={{
@@ -29,8 +30,7 @@ const AuthRoutes = () => {
           safeAreaInsets: { top: 4 },
           headerTitleAlign: 'center',
           headerStyle: {
-            backgroundColor: '#41aea9',
-            fontFamily: 'Roboto-Medium',
+            backgroundColor: '#0071ba',
           },
         }}
       >

@@ -47,16 +47,16 @@ const Login = ({ navigation }) => {
 
   return (
     <MainContainer>
-      <Header backgroundColor={'#41aea9'}>
+      <Header backgroundColor="#0071ba">
         <ImageContainer>
           <Image source={imoLogo} style={styles.imoLogo} />
         </ImageContainer>
       </Header>
-      <InputContainer backgroundColor="#e8ffff">
+      <InputContainer backgroundColor="#FFF">
         <Scroll>
           <LoginContainer>
             <Input
-              inputStyle={{ fontFamily: 'Roboto-Regular' }}
+              inputStyle={{ fontFamily: 'Roboto-Medium' }}
               autoCapitalize="none"
               autoCorrect={false}
               containerStyle={{
@@ -64,10 +64,16 @@ const Login = ({ navigation }) => {
               }}
               placeholder="email@email.com"
               textContentType="emailAddress"
-              rightIcon={
-                <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
-              }
+              rightIcon={<Icon name="mail" size={26} type="ionicon" />}
               onChangeText={(emailParam) => setEmail(emailParam)}
+              errorMessage={
+                !validateEmail(email) &&
+                email.length > 0 && (
+                  <TextView color="red" fontSize={15}>
+                    Formato de email incorreto
+                  </TextView>
+                )
+              }
             />
             <Input
               inputStyle={{ fontFamily: 'Roboto-Medium' }}
@@ -82,7 +88,6 @@ const Login = ({ navigation }) => {
                     size={26}
                     type="ionicon"
                     onPress={onPassPress}
-                    color="#41aea9"
                   />
                 ) : (
                   <Icon
@@ -91,7 +96,6 @@ const Login = ({ navigation }) => {
                     size={26}
                     type="ionicon"
                     onPress={onPassPress}
-                    color="#e0e045"
                   />
                 )
               }
@@ -101,7 +105,7 @@ const Login = ({ navigation }) => {
 
             <ContainerForgotPassword>
               <TouchableHighlight
-                underlayColor={'#FFF'}
+                underlayColor="#FFF"
                 onPress={() =>
                   navigation.navigate('RequestToChangePassword', {
                     isHeaderActive: true,
@@ -115,12 +119,12 @@ const Login = ({ navigation }) => {
               title="Entrar"
               onPress={handleSignIn}
               fontSize={22}
-              colorTheme="#41aea9"
+              colorTheme="#0071ba"
               marginTop={25}
             />
             <ContainerRegisterText>
               <TouchableHighlight
-                underlayColor={'#FFF'}
+                underlayColor="#FFFF"
                 onPress={() =>
                   navigation.navigate('Register', { isHeaderActive: true })
                 }
@@ -137,18 +141,10 @@ const Login = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
   imoLogo: {
-    width: 160,
+    width: 150,
     height: 80,
-  },
-  registerSpan: {
-    color: '#40a8c4',
+    backgroundColor: '#0071ba',
   },
 });
 

@@ -24,13 +24,13 @@ const Account = (user) => {
       <MainContainer backgroundColor="#ffff">
         <View style={styles.headerContainer}>
           <Header
-            backgroundColor="#e8ffff"
             height="40%"
             style={styles.shadow}
             width="50%"
+            backgroundColor="#ffff"
           >
             <TouchableHighlight
-              underlayColor={'#FFF'}
+              underlayColor="#FFF"
               style={[styles.profileImgContainer]}
               onPress={() => alert('You Clicked')}
             >
@@ -46,13 +46,23 @@ const Account = (user) => {
               {user.firstName} {user.lastName}
             </TextView>
             <TextView fontStyle="Thin">{user?.email}</TextView>
-            <Button
-              onPress={handleLogout}
-              title="Sair"
-              colorTheme="#e91e63"
-              width={20}
-              marginTop={10}
-            />
+            <View style={styles.containerClicks}>
+              <Icon
+                brand={true}
+                name="exit"
+                size={26}
+                type="ionicon"
+                containerStyle={styles.icon}
+                color="red"
+              />
+              <Button
+                onPress={handleLogout}
+                title="Sair"
+                colorTheme="#ffff"
+                width={10}
+                marginTop={8}
+              />
+            </View>
           </Header>
         </View>
         <Container>
@@ -73,6 +83,7 @@ const Account = (user) => {
                 width={50}
                 colorTheme="#ffff"
                 onPress={() => alert('yau')}
+                marginTop={10}
               />
             </View>
             <TextView color="#b7b5b5">
@@ -91,6 +102,7 @@ const Account = (user) => {
                 title="Meus Carros"
                 onPress={() => alert('yau')}
                 width={30}
+                marginTop={10}
               />
             </View>
             <TextView color="#b7b5b5">
@@ -108,6 +120,7 @@ const Account = (user) => {
                 title="Termos e Condições"
                 onPress={() => alert('yau')}
                 width={45}
+                marginTop={10}
               />
             </View>
             <TextView color="#b7b5b5">
@@ -125,6 +138,7 @@ const Account = (user) => {
                 title="Privacidade"
                 onPress={() => alert('yau')}
                 width={30}
+                marginTop={10}
               />
             </View>
             <TextView color="#b7b5b5">
@@ -149,7 +163,6 @@ const styles = StyleSheet.create({
   },
   shadow: {
     alignItems: 'center',
-    shadowColor: 'rgb(65, 174, 169)',
     shadowOffset: {
       width: 6,
       height: 12,

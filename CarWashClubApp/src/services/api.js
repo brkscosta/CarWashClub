@@ -3,7 +3,8 @@ import axios from 'axios';
 //import { LOCAL_ADDRESS } from '@env';
 
 export const api = axios.create({
-  baseURL: 'http://192.168.1.200:5000',
+  //baseURL: 'http://192.168.1.200:5000',
+  baseURL: 'http://15.237.70.172',
 });
 
 // Set JSON Web Token in Client to be included in all calls

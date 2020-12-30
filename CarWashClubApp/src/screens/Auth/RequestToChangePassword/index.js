@@ -1,6 +1,6 @@
 //#endregion Imports
 import React, { useState, useEffect } from 'react';
-import { TextHeader, TextHeaderContainer, TextEmailError } from './styles';
+import { TextHeader, TextHeaderContainer } from './styles';
 import { StyleSheet } from 'react-native';
 import {
   Scroll,
@@ -8,6 +8,7 @@ import {
   MainContainer,
   Button,
   FooterContainer,
+  TextView,
 } from '../../../components';
 import { api } from '../../../services/api';
 import { validateEmail, alert } from '../../../services/utils';
@@ -23,7 +24,11 @@ const RequestToChangePassword = ({ route, navigation }) => {
     const { isHeaderActive } = route.params;
     navigation.setOptions({
       headerShown: isHeaderActive,
-      title: 'Recuperar Password',
+      title: (
+        <TextView fontStyle="Thin" fontSize="25" color="#FFF">
+          Recuperar Password
+        </TextView>
+      ),
       headerTintColor: '#fff',
       headerLeft: (props) => (
         <Icon
@@ -72,9 +77,9 @@ const RequestToChangePassword = ({ route, navigation }) => {
 
   return (
     <MainContainer>
-      <Header>
+      <Header backgroundColor="#0071ba">
         <TextHeaderContainer>
-          <TextHeader fontSize={18}>
+          <TextHeader fontSize={22}>
             Ponha os dados abaixo para recuperar a sua password
           </TextHeader>
         </TextHeaderContainer>
@@ -85,30 +90,36 @@ const RequestToChangePassword = ({ route, navigation }) => {
             inputStyle={{ fontFamily: 'Roboto-Medium' }}
             autoCapitalize="none"
             autoCorrect={false}
-            rightIcon={
-              <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
-            }
+            rightIcon={<Icon name="mail" size={26} type="ionicon" />}
             required={true}
             placeholder="example@example.com"
             onChangeText={(emailParam) => setEmail(emailParam)}
+            errorMessage={
+              !validateEmail(email) &&
+              email.length > 0 && (
+                <TextView color="red" fontSize={15}>
+                  Formato de email incorreto
+                </TextView>
+              )
+            }
           />
-          {!validateEmail(email) && email.length > 0 && (
-            <TextEmailError>Este email não é válido</TextEmailError>
-          )}
           <Input
             inputStyle={{ fontFamily: 'Roboto-Medium' }}
             autoCapitalize="none"
             autoCorrect={false}
-            rightIcon={
-              <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
-            }
+            rightIcon={<Icon name="mail" size={26} type="ionicon" />}
             required={true}
             placeholder="example@example.com"
             onChangeText={(emailParam) => setConfirmEmail(emailParam)}
+            errorMessage={
+              email !== confirmEmail &&
+              confirmEmail.length > 0 && (
+                <TextView color="red" fontSize={15}>
+                  Os email's não são iguais
+                </TextView>
+              )
+            }
           />
-          {email !== confirmEmail && (
-            <TextEmailError>Os email's não são iguais</TextEmailError>
-          )}
         </InputContainer>
       </Scroll>
       <FooterContainer>
@@ -116,7 +127,7 @@ const RequestToChangePassword = ({ route, navigation }) => {
           title="Recuperar Password"
           onPress={handleChangePassword}
           fontSize={22}
-          colorTheme="#41aea9"
+          colorTheme="#0071ba"
         />
       </FooterContainer>
     </MainContainer>

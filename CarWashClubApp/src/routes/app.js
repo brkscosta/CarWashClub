@@ -53,20 +53,25 @@ const AppRoutes = () => {
         barStyle="dark-content"
         showHideTransition="slide"
         animated={true}
+        backgroundColor="#0071ba"
       />
 
       <ScrollView
         contentContainerStyle={{ display: 'flex', left: 0, bottom: 0, flex: 1 }}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#4285F4', '#DB4437', '#F4B400', '#0F9D58']}
+          />
         }
       >
         <Tab.Navigator
           initialRoute="Promotions"
-          activeColor="#213e3b"
+          activeColor="#111430"
           inactiveColor="#FFF"
           barStyle={{
-            backgroundColor: '#41aea9',
+            backgroundColor: '#0071ba',
           }}
           shifting={true}
           backBehavior="history"
@@ -76,7 +81,7 @@ const AppRoutes = () => {
             component={Vouchers}
             options={{
               tabBarLabel: 'Vouchers',
-              tabBarIcon: ({ color, tabBarColor }) => (
+              tabBarIcon: ({ color }) => (
                 <>
                   <Icon name="wallet" color={color} size={26} />
                 </>

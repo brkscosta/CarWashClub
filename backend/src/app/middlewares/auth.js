@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
       .status(401)
       .json({ success: false, message: "Token malformated" });
 
-  jwt.verify(token, authConfig.secretHashKeyToken, (err, decoded) => {
+  jwt.verify(token, config.secretHashKeyToken, (err, decoded) => {
     if (err) {
       return res.status(401).json({ success: false, message: "Invalid token" });
     }

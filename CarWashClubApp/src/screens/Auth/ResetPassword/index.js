@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 // import { Container } from './styles';
 import {
@@ -72,10 +72,12 @@ const ResetPassword = ({ route, navigation }) => {
   return (
     <>
       <MainContainer>
-        <Header>
-          <TextView fontSize={18}>
-            Ponha a sua nova password nos campos abaixo
-          </TextView>
+        <Header backgroundColor="#0071ba">
+          <View style={styles.headerContainer}>
+            <TextView fontSize={25} fontStyle="Light">
+              Preencha os campos abaixo para renovar a sua palavra-passe
+            </TextView>
+          </View>
         </Header>
         <InputContainer>
           <Input
@@ -86,16 +88,19 @@ const ResetPassword = ({ route, navigation }) => {
             containerStyle={{
               width: wp('100%'),
             }}
-            rightIcon={
-              <Icon name="mail" size={26} type="ionicon" color="#41aea9" />
-            }
+            rightIcon={<Icon name="mail" size={26} type="ionicon" />}
             onChangeText={(emailParam) => {
               setEmail(emailParam);
             }}
+            errorMessage={
+              !validateEmail(email) &&
+              email.length > 0 && (
+                <TextView color="red" fontSize={15}>
+                  Formato de email não suportado
+                </TextView>
+              )
+            }
           />
-          {!validateEmail(email) && email.length > 0 && (
-            <TextView color="red">Formato de email não suportado</TextView>
-          )}
           <Input
             inputStyle={{ fontFamily: 'Roboto-Medium' }}
             autoCorrect={false}
@@ -104,12 +109,17 @@ const ResetPassword = ({ route, navigation }) => {
             containerStyle={{
               width: wp('100%'),
             }}
-            rightIcon={
-              <Icon name="key" size={26} type="ionicon" color="#41aea9" />
-            }
+            rightIcon={<Icon name="key" size={26} type="ionicon" />}
             onChangeText={(tokenParam) => {
               setToken(tokenParam);
             }}
+            errorMessage={
+              token.length > 12 && (
+                <TextView color="red" fontSize={15}>
+                  O token não contém mais que 12 caracteres
+                </TextView>
+              )
+            }
           />
           <Input
             inputStyle={{ fontFamily: 'Roboto-Medium' }}
@@ -126,7 +136,6 @@ const ResetPassword = ({ route, navigation }) => {
                   size={26}
                   type="ionicon"
                   onPress={onPassPress}
-                  color="#41aea9"
                 />
               ) : (
                 <Icon
@@ -135,12 +144,12 @@ const ResetPassword = ({ route, navigation }) => {
                   size={26}
                   type="ionicon"
                   onPress={onPassPress}
-                  color="#e0e045"
                 />
               )
             }
             onChangeText={(passwordParam) => setPassword(passwordParam)}
             secureTextEntry={secureTextEntry}
+            errorMessage={passwordCheck(password)}
           />
           <Input
             inputStyle={{ fontFamily: 'Roboto-Medium' }}
@@ -148,6 +157,7 @@ const ResetPassword = ({ route, navigation }) => {
             autoCapitalize="none"
             containerStyle={{
               width: wp('100%'),
+              fontFamily: 'Roboto-Medium',
             }}
             placeholder="confirme a password"
             rightIcon={
@@ -157,7 +167,6 @@ const ResetPassword = ({ route, navigation }) => {
                   size={26}
                   type="ionicon"
                   onPress={onPassPress}
-                  color="#41aea9"
                 />
               ) : (
                 <Icon
@@ -166,29 +175,46 @@ const ResetPassword = ({ route, navigation }) => {
                   size={26}
                   type="ionicon"
                   onPress={onPassPress}
-                  color="#e0e045"
                 />
               )
             }
             onChangeText={(passwordParam) => setConfirmPassword(passwordParam)}
             secureTextEntry={secureTextEntry}
+            errorMessage={
+              password !== confirmPassword &&
+              confirmPassword.length > 0 && (
+                <TextView color="red">As passwords não são iguais!</TextView>
+              )
+            }
           />
-          {password !== confirmPassword && (
-            <TextView color="red">As passwords não são iguais!</TextView>
-          )}
-          {passwordCheck(password)}
         </InputContainer>
         <FooterContainer>
-          <Button
-            title="Mudar Password"
-            onPress={handleChangeConfirmPassword}
-            fontSize={22}
-            colorTheme="#41aea9"
-          />
+          {token.length === 0 ||
+          email.length === 0 ||
+          password.length === 0 ||
+          confirmPassword.length === 0 ||
+          confirmPassword !== password ? (
+            <View />
+          ) : (
+            <Button
+              title="Mudar Password"
+              onPress={handleChangeConfirmPassword}
+              fontSize={22}
+              colorTheme="#0071ba"
+            />
+          )}
         </FooterContainer>
       </MainContainer>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    bottom: 10,
+    width: 'auto',
+    left: 25,
+  },
+});
 
 export default ResetPassword;
