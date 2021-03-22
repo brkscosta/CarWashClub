@@ -58,11 +58,11 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  function signOut() {
+  const signOut = () => {
     AsyncStorage.clear().then(() => {
       setUser(null);
     });
-  }
+  };
 
   return (
     <AuthContext.Provider

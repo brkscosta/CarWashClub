@@ -1,19 +1,15 @@
-import React from 'react';
-import {
-  View,
-  StatusBar,
-  TouchableHighlight,
-  Image,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import React, { useContext } from 'react';
+import { View, TouchableHighlight, Image, StyleSheet } from 'react-native';
 import { useAuth } from '../../../contexts/auth';
+import { ThemeContext } from '../../../contexts/theme';
 import { Container } from './styles';
 import { Header, MainContainer, Button, TextView } from '../../../components';
 import { Icon } from 'react-native-elements';
 
 const Account = (user) => {
   const { signOut } = useAuth();
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  console.log('Current theme: ', theme);
 
   const handleLogout = () => {
     signOut();
@@ -21,16 +17,11 @@ const Account = (user) => {
 
   return (
     <>
-      <MainContainer backgroundColor="#ffff">
+      <MainContainer>
         <View style={styles.headerContainer}>
-          <Header
-            height="40%"
-            style={styles.shadow}
-            width="50%"
-            backgroundColor="#ffff"
-          >
+          <Header height="40%" style={styles.shadow} width="50%">
             <TouchableHighlight
-              underlayColor="#FFF"
+              underlayColor={theme.title === 'light' ? '#FFFF' : '#282C34'}
               style={[styles.profileImgContainer]}
               onPress={() => alert('You Clicked')}
             >
@@ -58,7 +49,7 @@ const Account = (user) => {
               <Button
                 onPress={handleLogout}
                 title="Sair"
-                colorTheme="#ffff"
+                fontColor={theme.title === 'light' ? '#333' : '#FFFF'}
                 width={10}
                 marginTop={8}
               />
@@ -77,13 +68,15 @@ const Account = (user) => {
                 size={26}
                 type="ionicon"
                 containerStyle={styles.icon}
+                color={theme.colors.iconColor}
               />
               <Button
                 title="Informações Pessoais"
                 width={50}
-                colorTheme="#ffff"
-                onPress={() => alert('yau')}
+                fontColor={theme.title === 'light' ? '#333' : '#FFFF'}
+                onPress={toggleTheme}
                 marginTop={10}
+                colorTheme="#FFF"
               />
             </View>
             <TextView color="#b7b5b5">
@@ -95,14 +88,16 @@ const Account = (user) => {
                 name="car-sport"
                 size={26}
                 type="ionicon"
+                color={theme.colors.iconColor}
                 containerStyle={styles.icon}
               />
-
               <Button
                 title="Meus Carros"
                 onPress={() => alert('yau')}
-                width={30}
+                width={31}
+                fontColor={theme.title === 'light' ? '#333' : '#FFFF'}
                 marginTop={10}
+                colorTheme="#FFF"
               />
             </View>
             <TextView color="#b7b5b5">
@@ -114,13 +109,16 @@ const Account = (user) => {
                 name="receipt"
                 size={26}
                 type="ionicon"
+                color={theme.colors.iconColor}
                 containerStyle={styles.icon}
               />
               <Button
                 title="Termos e Condições"
                 onPress={() => alert('yau')}
-                width={45}
+                width={46}
+                fontColor={theme.title === 'light' ? '#333' : '#FFFF'}
                 marginTop={10}
+                colorTheme="#FFF"
               />
             </View>
             <TextView color="#b7b5b5">
@@ -133,12 +131,15 @@ const Account = (user) => {
                 size={26}
                 type="ionicon"
                 containerStyle={styles.icon}
+                color={theme.colors.iconColor}
               />
               <Button
                 title="Privacidade"
                 onPress={() => alert('yau')}
                 width={30}
+                fontColor={theme.title === 'light' ? '#333' : '#FFFF'}
                 marginTop={10}
+                colorTheme="#FFF"
               />
             </View>
             <TextView color="#b7b5b5">

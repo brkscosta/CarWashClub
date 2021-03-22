@@ -1,3 +1,6 @@
 node_modules/
 *.zip
 src/.env
+src/package-lock.json
+src/.*log
+src/yarn.lock

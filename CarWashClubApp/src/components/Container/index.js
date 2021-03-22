@@ -8,7 +8,10 @@ import styled from 'styled-components/native';
 export const MainContainer = styled.View`
   flex: 1;
   flex-direction: column;
-  background-color: ${(props) => props.backgroundColor || '#FFF'};
+  background-color: ${(props) =>
+    props.theme.title === 'light'
+      ? props.theme.colors.backgroundColor
+      : props.theme.colors.primary};
   height: ${hp('70%')};
   width: ${wp('100%')};
 `;
@@ -21,7 +24,10 @@ export const InputContainer = styled.View`
   width: ${wp('100%')};
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
-  background-color: ${(props) => props.backgroundColor || '#FFF'};
+  background-color: ${(props) =>
+    props.theme.title === 'light'
+      ? props.theme.colors.backgroundColor
+      : props.theme.colors.primary};
   margin-top: 30%;
   position: absolute;
 `;
@@ -32,7 +38,10 @@ export const Header = styled.View`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: ${(props) => props.backgroundColor || '#40a8c4'};
+  background-color: ${(props) =>
+    props.theme.title === 'light'
+      ? props.theme.colors.backgroundColor
+      : props.theme.colors.primary};
 `;
 
 export const FooterContainer = styled.View`

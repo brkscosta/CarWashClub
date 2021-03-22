@@ -1,5 +1,5 @@
 //#region Imports
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Image, TouchableHighlight } from 'react-native';
 import { imoLogo } from '../../../assets/images/';
 import { validateEmail, alert } from '../../../services/utils';
@@ -25,6 +25,7 @@ import {
 } from '../../../components';
 import { Input, Icon } from 'react-native-elements';
 import { useAuth } from '../../../contexts/auth';
+import { ThemeContext } from '../../../contexts/theme';
 //#endregion
 
 const Login = ({ navigation }) => {
@@ -32,6 +33,8 @@ const Login = ({ navigation }) => {
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
   let [secureTextEntry, setSecureTextEntry] = useState(true);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  console.log(theme);
 
   const handleSignIn = async () => {
     if (validateEmail(email)) {
@@ -47,7 +50,11 @@ const Login = ({ navigation }) => {
 
   return (
     <MainContainer>
-      <Header backgroundColor="#0071ba">
+      <Header
+        backgroundColor={
+          theme.title === 'light' ? theme.colors.primary : theme.colors.primary
+        }
+      >
         <ImageContainer>
           <Image source={imoLogo} style={styles.imoLogo} />
         </ImageContainer>
@@ -64,7 +71,14 @@ const Login = ({ navigation }) => {
               }}
               placeholder="email@email.com"
               textContentType="emailAddress"
-              rightIcon={<Icon name="mail" size={26} type="ionicon" />}
+              rightIcon={
+                <Icon
+                  name="mail"
+                  size={26}
+                  type="ionicon"
+                  color={theme.colors.iconColor}
+                />
+              }
               onChangeText={(emailParam) => setEmail(emailParam)}
               errorMessage={
                 !validateEmail(email) &&
@@ -88,6 +102,7 @@ const Login = ({ navigation }) => {
                     size={26}
                     type="ionicon"
                     onPress={onPassPress}
+                    color={theme.colors.iconColor}
                   />
                 ) : (
                   <Icon
@@ -96,6 +111,7 @@ const Login = ({ navigation }) => {
                     size={26}
                     type="ionicon"
                     onPress={onPassPress}
+                    color={theme.colors.iconColor}
                   />
                 )
               }
@@ -119,8 +135,8 @@ const Login = ({ navigation }) => {
               title="Entrar"
               onPress={handleSignIn}
               fontSize={22}
-              colorTheme="#0071ba"
               marginTop={25}
+              colorTheme="#0071ba"
             />
             <ContainerRegisterText>
               <TouchableHighlight

@@ -21,7 +21,9 @@ export const Button = (props) => {
         width={props.width}
         {...props}
       >
-        <Text fontSize={props.fontSize}>{props.title}</Text>
+        <Text fontSize={props.fontSize} color={props.fontColor}>
+          {props.title}
+        </Text>
       </View>
     </TouchableHighlight>
   );

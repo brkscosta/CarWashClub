@@ -4,15 +4,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const themes = {
-  primary: '#0A6AB6',
-};
-
 export const View = styled.View`
   background-color: ${(props) =>
-    props.colorTheme === 'primary' || !props.colorTheme
-      ? themes.primary
-      : (themes.primary = props.colorTheme)};
+    props.colorTheme ? props.colorTheme : '#0071ba'};
   border-radius: ${(props) => props.borderRadius || 10}px;
   height: ${(props) => props.height || 40}px;
   width: ${(props) => wp(props.width) || wp(95)};

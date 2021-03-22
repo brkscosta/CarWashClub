@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("../../config");
+const path = require("path");
 
 module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -7,23 +8,27 @@ module.exports = (req, res, next) => {
   if (!authHeader)
     return res
       .status(401)
-      .json({ success: false, message: "No token provided" });
+      .sendFile(path.join(__dirname, "../views/unauthorized.html"));
 
   let parts = authHeader.split(" ");
 
   if (!parts.length === 2)
-    return res.status(401).json({ success: false, message: "Token error" });
+    return res
+      .status(401)
+      .sendFile(path.join(__dirname, "../views/unauthorized.html"));
 
   let [scheme, token] = parts;
 
   if (!/^Bearer$/i.test(scheme))
     return res
       .status(401)
-      .json({ success: false, message: "Token malformated" });
+      .sendFile(path.join(__dirname, "../views/unauthorized.html"));
 
   jwt.verify(token, config.secretHashKeyToken, (err, decoded) => {
     if (err) {
-      return res.status(401).json({ success: false, message: "Invalid token" });
+      return res
+        .status(401)
+        .sendFile(path.join(__dirname, "../views/unauthorized.html"));
     }
     req.userId = decoded.id;
     return next();

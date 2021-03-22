@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import light from '../styles/themes/light';
 import { TextView } from '../components';
 
 export const alert = (alertTitle, alertText) => {
@@ -53,4 +55,24 @@ export const passwordCheck = (password) => {
       </TextView>
     );
   }
+};
+
+export const usePersistedState = async (key, initialState) => {
+  const [state, setState] = useState(async () => {
+    const storageValue = await AsyncStorage.getItem(`@CarWashClub:${key}`);
+    if (storageValue) {
+      return JSON.parse(storageValue);
+    } else {
+      return initialState;
+    }
+  });
+
+  useEffect(() => {
+    const setTheme = async () => {
+      await AsyncStorage.setItem(`@CarWashClub:${key}`, JSON.stringify(state));
+    };
+    setTheme();
+  }, [key, state]);
+
+  return [state, setState];
 };

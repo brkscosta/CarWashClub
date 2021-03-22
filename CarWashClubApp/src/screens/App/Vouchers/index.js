@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, StatusBar, Text } from 'react-native';
-
+import { Header, MainContainer, Button, TextView } from '../../../components';
 // import { Container } from './styles';
 
 const Vouchers = () => {
   return (
-    <View>
+    <MainContainer>
       <Text>Vauchers</Text>
-    </View>
+    </MainContainer>
   );
 };
 
